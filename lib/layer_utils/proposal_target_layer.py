@@ -97,57 +97,57 @@ def _compute_targets(ex_rois, gt_rois, labels):
         (labels[:, np.newaxis], targets)).astype(np.float32, copy=False)
 
 
-# def _sample_rois(all_rois, all_scores, gt_boxes, fg_rois_per_image, rois_per_image, num_classes):
-#     """Generate a random sample of RoIs comprising foreground and background
-#     examples.
-#     """
-#     # overlaps: (rois x gt_boxes)
-#     overlaps = bbox_overlaps(
-#         np.ascontiguousarray(all_rois[:, 1:5], dtype=np.float),
-#         np.ascontiguousarray(gt_boxes[:, :4], dtype=np.float))
-#     gt_assignment = overlaps.argmax(axis=1)
-#     max_overlaps = overlaps.max(axis=1)
-#     labels = gt_boxes[gt_assignment, 4]
-#
-#     # Select foreground RoIs as those with >= FG_THRESH overlap
-#     fg_inds = np.where(max_overlaps >= cfg.FLAGS.roi_fg_threshold)[0]
-#     # Guard against the case when an image has fewer than fg_rois_per_image
-#     # Select background RoIs as those within [BG_THRESH_LO, BG_THRESH_HI)
-#     bg_inds = np.where((max_overlaps < cfg.FLAGS.roi_bg_threshold_high) &
-#                        (max_overlaps >= cfg.FLAGS.roi_bg_threshold_low))[0]
-#
-#     # Small modification to the original version where we ensure a fixed number of regions are sampled
-#     if fg_inds.size > 0 and bg_inds.size > 0:
-#         fg_rois_per_image = min(fg_rois_per_image, fg_inds.size)
-#         fg_inds = npr.choice(fg_inds, size=int(fg_rois_per_image), replace=False)
-#         bg_rois_per_image = rois_per_image - fg_rois_per_image
-#         to_replace = bg_inds.size < bg_rois_per_image
-#         bg_inds = npr.choice(bg_inds, size=int(bg_rois_per_image), replace=to_replace)
-#     elif fg_inds.size > 0:
-#         to_replace = fg_inds.size < rois_per_image
-#         fg_inds = npr.choice(fg_inds, size=int(rois_per_image), replace=to_replace)
-#         fg_rois_per_image = rois_per_image
-#     elif bg_inds.size > 0:
-#         to_replace = bg_inds.size < rois_per_image
-#         bg_inds = npr.choice(bg_inds, size=int(rois_per_image), replace=to_replace)
-#         fg_rois_per_image = 0
-#     else:
-#         import pdb
-#         pdb.set_trace()
-#
-#     # The indices that we're selecting (both fg and bg)
-#     keep_inds = np.append(fg_inds, bg_inds)
-#     # Select sampled values from various arrays:
-#     labels = labels[keep_inds]
-#     # Clamp labels for the background RoIs to 0
-#     labels[int(fg_rois_per_image):] = 0
-#     rois = all_rois[keep_inds]
-#     roi_scores = all_scores[keep_inds]
-#
-#     bbox_target_data = _compute_targets(
-#         rois[:, 1:5], gt_boxes[gt_assignment[keep_inds], :4], labels)
-#
-#     bbox_targets, bbox_inside_weights = \
-#         _get_bbox_regression_labels(bbox_target_data, num_classes)
-#
-#     return labels, rois, roi_scores, bbox_targets, bbox_inside_weights
+def _sample_rois(all_rois, all_scores, gt_boxes, fg_rois_per_image, rois_per_image, num_classes):
+    """Generate a random sample of RoIs comprising foreground and background
+    examples.
+    """
+    # overlaps: (rois x gt_boxes)
+    overlaps = bbox_overlaps(
+        np.ascontiguousarray(all_rois[:, 1:5], dtype=np.float),
+        np.ascontiguousarray(gt_boxes[:, :4], dtype=np.float))
+    gt_assignment = overlaps.argmax(axis=1)
+    max_overlaps = overlaps.max(axis=1)
+    labels = gt_boxes[gt_assignment, 4]
+
+    # Select foreground RoIs as those with >= FG_THRESH overlap
+    fg_inds = np.where(max_overlaps >= cfg.FLAGS.roi_fg_threshold)[0]
+    # Guard against the case when an image has fewer than fg_rois_per_image
+    # Select background RoIs as those within [BG_THRESH_LO, BG_THRESH_HI)
+    bg_inds = np.where((max_overlaps < cfg.FLAGS.roi_bg_threshold_high) &
+                       (max_overlaps >= cfg.FLAGS.roi_bg_threshold_low))[0]
+
+    # Small modification to the original version where we ensure a fixed number of regions are sampled
+    if fg_inds.size > 0 and bg_inds.size > 0:
+        fg_rois_per_image = min(fg_rois_per_image, fg_inds.size)
+        fg_inds = npr.choice(fg_inds, size=int(fg_rois_per_image), replace=False)
+        bg_rois_per_image = rois_per_image - fg_rois_per_image
+        to_replace = bg_inds.size < bg_rois_per_image
+        bg_inds = npr.choice(bg_inds, size=int(bg_rois_per_image), replace=to_replace)
+    elif fg_inds.size > 0:
+        to_replace = fg_inds.size < rois_per_image
+        fg_inds = npr.choice(fg_inds, size=int(rois_per_image), replace=to_replace)
+        fg_rois_per_image = rois_per_image
+    elif bg_inds.size > 0:
+        to_replace = bg_inds.size < rois_per_image
+        bg_inds = npr.choice(bg_inds, size=int(rois_per_image), replace=to_replace)
+        fg_rois_per_image = 0
+    else:
+        import pdb
+        pdb.set_trace()
+
+    # The indices that we're selecting (both fg and bg)
+    keep_inds = np.append(fg_inds, bg_inds)
+    # Select sampled values from various arrays:
+    labels = labels[keep_inds]
+    # Clamp labels for the background RoIs to 0
+    labels[int(fg_rois_per_image):] = 0
+    rois = all_rois[keep_inds]
+    roi_scores = all_scores[keep_inds]
+
+    bbox_target_data = _compute_targets(
+        rois[:, 1:5], gt_boxes[gt_assignment[keep_inds], :4], labels)
+
+    bbox_targets, bbox_inside_weights = \
+        _get_bbox_regression_labels(bbox_target_data, num_classes)
+
+    return labels, rois, roi_scores, bbox_targets, bbox_inside_weights
