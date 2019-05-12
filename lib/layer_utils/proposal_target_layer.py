@@ -16,44 +16,44 @@ from lib.config import config as cfg
 from lib.utils.bbox_transform import bbox_transform
 
 
-# def proposal_target_layer(rpn_rois, rpn_scores, gt_boxes, _num_classes):
-#     """
-#     Assign object detection proposals to ground-truth targets. Produces proposal
-#     classification labels and bounding-box regression targets.
-#     """
-#
-#     # Proposal ROIs (0, x1, y1, x2, y2) coming from RPN
-#     # (i.e., rpn.proposal_layer.ProposalLayer), or any other source
-#     all_rois = rpn_rois
-#     all_scores = rpn_scores
-#
-#     # Include ground-truth boxes in the set of candidate rois
-#     if cfg.FLAGS.proposal_use_gt:
-#         zeros = np.zeros((gt_boxes.shape[0], 1), dtype=gt_boxes.dtype)
-#         all_rois = np.vstack(
-#             (all_rois, np.hstack((zeros, gt_boxes[:, :-1])))
-#         )
-#         # not sure if it a wise appending, but anyway i am not using it
-#         all_scores = np.vstack((all_scores, zeros))
-#
-#     num_images = 1
-#     rois_per_image = cfg.FLAGS.batch_size / num_images
-#     fg_rois_per_image = np.round(cfg.FLAGS.proposal_fg_fraction * rois_per_image)
-#
-#     # Sample rois with classification labels and bounding box regression
-#     # targets
-#     labels, rois, roi_scores, bbox_targets, bbox_inside_weights = _sample_rois(
-#         all_rois, all_scores, gt_boxes, fg_rois_per_image,
-#         rois_per_image, _num_classes)
-#
-#     rois = rois.reshape(-1, 5)
-#     roi_scores = roi_scores.reshape(-1)
-#     labels = labels.reshape(-1, 1)
-#     bbox_targets = bbox_targets.reshape(-1, _num_classes * 4)
-#     bbox_inside_weights = bbox_inside_weights.reshape(-1, _num_classes * 4)
-#     bbox_outside_weights = np.array(bbox_inside_weights > 0).astype(np.float32)
-#
-#     return rois, roi_scores, labels, bbox_targets, bbox_inside_weights, bbox_outside_weights
+def proposal_target_layer(rpn_rois, rpn_scores, gt_boxes, _num_classes):
+    """
+    Assign object detection proposals to ground-truth targets. Produces proposal
+    classification labels and bounding-box regression targets.
+    """
+
+    # Proposal ROIs (0, x1, y1, x2, y2) coming from RPN
+    # (i.e., rpn.proposal_layer.ProposalLayer), or any other source
+    all_rois = rpn_rois
+    all_scores = rpn_scores
+
+    # Include ground-truth boxes in the set of candidate rois
+    if cfg.FLAGS.proposal_use_gt:
+        zeros = np.zeros((gt_boxes.shape[0], 1), dtype=gt_boxes.dtype)
+        all_rois = np.vstack(
+            (all_rois, np.hstack((zeros, gt_boxes[:, :-1])))
+        )
+        # not sure if it a wise appending, but anyway i am not using it
+        all_scores = np.vstack((all_scores, zeros))
+
+    num_images = 1
+    rois_per_image = cfg.FLAGS.batch_size / num_images
+    fg_rois_per_image = np.round(cfg.FLAGS.proposal_fg_fraction * rois_per_image)
+
+    # Sample rois with classification labels and bounding box regression
+    # targets
+    labels, rois, roi_scores, bbox_targets, bbox_inside_weights = _sample_rois(
+        all_rois, all_scores, gt_boxes, fg_rois_per_image,
+        rois_per_image, _num_classes)
+
+    rois = rois.reshape(-1, 5)
+    roi_scores = roi_scores.reshape(-1)
+    labels = labels.reshape(-1, 1)
+    bbox_targets = bbox_targets.reshape(-1, _num_classes * 4)
+    bbox_inside_weights = bbox_inside_weights.reshape(-1, _num_classes * 4)
+    bbox_outside_weights = np.array(bbox_inside_weights > 0).astype(np.float32)
+
+    return rois, roi_scores, labels, bbox_targets, bbox_inside_weights, bbox_outside_weights
 
 
 def _get_bbox_regression_labels(bbox_target_data, num_classes):
