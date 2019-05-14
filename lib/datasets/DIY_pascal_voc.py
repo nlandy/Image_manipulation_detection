@@ -197,7 +197,7 @@ class DIY_pascal_voc(imdb):
                                        dets[k, 2] + 1, dets[k, 3] + 1))
 
     def _do_python_eval(self, output_dir='output'):
-        annopath = self._devkit_path + '\\VOC' + self._year + '\\Annotations\\' + '{:s}.xml'
+        annopath = self._devkit_path + '\/VOC' + self._year + '\/Annotations\/' + '{:s}.xml'
         imagesetfile = os.path.join(
             self._devkit_path,
             'VOC' + self._year,
@@ -205,7 +205,6 @@ class DIY_pascal_voc(imdb):
             'Main',
             self._image_set + '.txt')
         cachedir = os.path.join(self._devkit_path, 'annotations_cache')
-        print(cachedir)
         aps = []
         # The PASCAL VOC metric changed in 2010
         use_07_metric = True if int(self._year) < 2010 else False
