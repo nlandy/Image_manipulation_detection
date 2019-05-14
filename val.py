@@ -28,6 +28,7 @@ from lib.utils.test import im_detect
 from lib.nets.vgg16 import vgg16
 from lib.utils.timer import Timer
 from train import combined_roidb
+from lib.utils.test import test_net
 
 CLASSES = ('__background__',
            'tampered')
