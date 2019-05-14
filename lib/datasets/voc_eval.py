@@ -137,7 +137,7 @@ def voc_eval(detpath,
         bbox = np.array([x['bbox'] for x in R])
         #difficult = np.array([x['difficult'] for x in R]).astype(np.bool)
         det = [False] * len(R)
-        npos = npos + sum(~difficult)
+        #npos = npos + sum(~difficult)
         class_recs[imagename] = {'bbox': bbox,
                                  #'difficult': difficult,
                                  'det': det}
@@ -203,7 +203,7 @@ def voc_eval(detpath,
     # compute precision recall
     fp = np.cumsum(fp)
     tp = np.cumsum(tp)
-    rec = tp / float(npos)
+    rec = tp #/ float(npos)
     # avoid divide by zero in case the first detection matches a difficult
     # ground truth
     prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
