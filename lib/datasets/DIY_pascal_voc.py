@@ -173,7 +173,6 @@ class DIY_pascal_voc(imdb):
         filename = self._get_comp_id() + '_det_' + self._image_set + '_{:s}.txt'
         path = os.path.join(
             self._devkit_path,
-            'results',
             'VOC' + self._year,
             'Main',
             filename)
