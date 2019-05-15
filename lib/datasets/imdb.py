@@ -111,7 +111,7 @@ class imdb(object):
         num_images = self.num_images
         widths = self._get_widths()
         print(num_images)
-        print(self._image_index)
+        print(len(self._image_index))
         for i in range(num_images):
             boxes = self.roidb[i]['boxes'].copy()
             oldx1 = boxes[:, 0].copy()
