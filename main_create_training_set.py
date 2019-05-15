@@ -22,7 +22,7 @@ save_path = os.sep.join(['data', 'DIY_dataset', 'VOC2007'])
 save_imgage_path = os.sep.join([save_path, 'JPEGImages'])
 save_annotation_path = os.sep.join([save_path, 'Annotations'])
 
-imdb = get_imdb("voc_2007_train")
+imdb = get_imdb("voc_2007_trainval")
 roidb = imdb.roidb
 
 image_index = imdb._load_image_set_index()
