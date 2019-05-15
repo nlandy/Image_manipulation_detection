@@ -68,7 +68,6 @@ class Train:
             raise NotImplementedError
 
         self.imdb, self.roidb = combined_roidb("DIY_dataset")
-        print((len(self.imdb), len(self.roidb)))
 
         self.data_layer = RoIDataLayer(self.roidb, self.imdb.num_classes)
         self.output_dir = cfg.get_output_dir(self.imdb, 'default')
