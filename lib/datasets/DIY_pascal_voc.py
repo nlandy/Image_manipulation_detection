@@ -276,7 +276,7 @@ class DIY_pascal_voc(imdb):
 if __name__ == '__main__':
     from datasets.pascal_voc import pascal_voc
 
-    d = pascal_voc('train', '2007')
+    d = pascal_voc('trainval', '2007')
     res = d.roidb
     from IPython import embed;
 
