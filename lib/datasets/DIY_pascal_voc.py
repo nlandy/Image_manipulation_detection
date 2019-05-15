@@ -223,11 +223,13 @@ class DIY_pascal_voc(imdb):
             f1 = 2*prec*rec/(prec+rec)
             f1s += [f1]
             print(('AP for {} = {:.4f}'.format(cls, ap)))
-            print(('F1 for {} = {:.4f}'.format(cls, f1)))
+            print(prec)
+            print(rec)
+            print(f1)
             with open(os.path.join(output_dir, cls + '_pr.pkl'), 'wb') as f:
                 pickle.dump({'rec': rec, 'prec': prec, 'ap': ap}, f)
         print(('Mean AP = {:.4f}'.format(np.mean(aps))))
-        print(('Mean F1 = {:.4f}'.format(np.mean(f1s))))
+        #print(('Mean F1 = {:.4f}'.format(np.mean(f1s))))
         print('~~~~~~~~')
         print('Results:')
         for ap in aps:
