@@ -253,7 +253,7 @@ class DIY_pascal_voc(imdb):
         status = subprocess.call(cmd, shell=True)
 
     def evaluate_detections(self, all_boxes, output_dir):
-        #self._write_voc_results_file(all_boxes)
+        self._write_voc_results_file(all_boxes)
         self._do_python_eval(output_dir)
         if self.config['matlab_eval']:
             self._do_matlab_eval(output_dir)
