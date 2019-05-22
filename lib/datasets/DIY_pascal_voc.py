@@ -216,6 +216,10 @@ class DIY_pascal_voc(imdb):
                 continue
             filename = self._get_voc_results_file_template().format(cls)
             print(filename)
+            print(annopath)
+            print(imagesetfile)
+            print(cls)
+            print(cachedir)
             rec, prec, ap = voc_eval(
                 filename, annopath, imagesetfile, cls, cachedir, ovthresh=0.5,
                 use_07_metric=use_07_metric)
