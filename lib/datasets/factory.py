@@ -36,7 +36,7 @@ for year in ['2015']:
         __sets[name] = (lambda split=split, year=year: coco(split, year))
 
 for year in ['2007']:
-    for split in ['train']:
+    for split in ['overfit']:
         name = 'DIY_dataset'
         __sets[name] = (lambda split=split, year=year: DIY_pascal_voc(split, year))
 
