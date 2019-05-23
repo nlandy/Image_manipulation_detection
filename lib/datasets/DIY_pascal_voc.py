@@ -205,6 +205,8 @@ class DIY_pascal_voc(imdb):
             'Main',
             self._image_set + '.txt')
         cachedir = os.path.join(self._devkit_path, 'annotations_cache')
+        recs = []
+        precs = []
         aps = []
         # The PASCAL VOC metric changed in 2010
         use_07_metric = True if int(self._year) < 2010 else False
@@ -218,10 +220,14 @@ class DIY_pascal_voc(imdb):
             rec, prec, ap = voc_eval(
                 filename, annopath, imagesetfile, cls, cachedir, ovthresh=0.5,
                 use_07_metric=use_07_metric)
+            recs += [rec]
+            precs += [prec]
             aps += [ap]
             print(('AP for {} = {:.4f}'.format(cls, ap)))
             with open(os.path.join(output_dir, cls + '_pr.pkl'), 'wb') as f:
                 pickle.dump({'rec': rec, 'prec': prec, 'ap': ap}, f)
+        print(('Mean Rec = {:.4f}'.format(np.mean(recs))))
+        print(('Mean Prec = {:.4f}'.format(np.mean(precs))))
         print(('Mean AP = {:.4f}'.format(np.mean(aps))))
         print('~~~~~~~~')
         print('Results:')
