@@ -208,6 +208,8 @@ class DIY_pascal_voc(imdb):
         recs = []
         precs = []
         aps = []
+        f1s = []
+        accs = []
         # The PASCAL VOC metric changed in 2010
         use_07_metric = True if int(self._year) < 2010 else False
         print('VOC07 metric? ' + ('Yes' if use_07_metric else 'No'))
@@ -217,18 +219,22 @@ class DIY_pascal_voc(imdb):
             if cls == '__background__':
                 continue
             filename = self._get_voc_results_file_template().format(cls)
-            rec, prec, ap = voc_eval(
+            rec, prec, ap, f1, acc = voc_eval(
                 filename, annopath, imagesetfile, cls, cachedir, ovthresh=0.5,
                 use_07_metric=use_07_metric)
             recs += [rec]
             precs += [prec]
             aps += [ap]
+            f1s += [f1]
+            accs += [acc]
             print(('AP for {} = {:.4f}'.format(cls, ap)))
             with open(os.path.join(output_dir, cls + '_pr.pkl'), 'wb') as f:
                 pickle.dump({'rec': rec, 'prec': prec, 'ap': ap}, f)
         print(('Mean Rec = {:.4f}'.format(np.mean(recs))))
         print(('Mean Prec = {:.4f}'.format(np.mean(precs))))
         print(('Mean AP = {:.4f}'.format(np.mean(aps))))
+        print(('Mean F1 = {:.4f}'.format(np.mean(f1s))))
+        print(('Mean Accuracy = {:.4f}'.format(np.mean(f1s))))
         print('~~~~~~~~')
         print('Results:')
         for ap in aps:
