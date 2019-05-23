@@ -211,4 +211,5 @@ def voc_eval(detpath,
     f1 = 2*prec*rec/(prec + rec)
     acc = (tp + tn)/(tp + tn + fp + fn)
 
+    print(rec, prec, ap, f1, acc)
     return rec, prec, ap, f1, acc
