@@ -234,7 +234,7 @@ class DIY_pascal_voc(imdb):
         print(('Mean Prec = {:.4f}'.format(np.mean(precs))))
         print(('Mean AP = {:.4f}'.format(np.mean(aps))))
         print(('Mean F1 = {:.4f}'.format(np.mean(f1s))))
-        print(('Mean Accuracy = {:.4f}'.format(np.mean(f1s))))
+        print(('Mean Accuracy = {:.4f}'.format(np.mean(accs))))
         print('~~~~~~~~')
         print('Results:')
         for ap in aps:
