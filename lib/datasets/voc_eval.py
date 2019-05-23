@@ -153,6 +153,7 @@ def voc_eval(detpath,
     nd = len(image_ids)
     tp = np.zeros(nd)
     fp = np.zeros(nd)
+    true_class = np.zeros(nd)
 
     if BB.shape[0] > 0:
         # sort by confidence
@@ -193,8 +194,10 @@ def voc_eval(detpath,
                     if not R['det'][jmax]:
                         tp[d] = 1.
                         R['det'][jmax] = 1
+                        true_class[d] = 1
                     else:
                         fp[d] = 1.
+                        true_class[d] = 0
             else:
                 fp[d] = 1.
 
@@ -211,5 +214,20 @@ def voc_eval(detpath,
     f1 = 2*prec*rec/(prec + rec)
     acc = (tp + tn)/(tp + tn + fp + fn)
 
-    print(rec, prec, ap, f1, acc)
-    return rec, prec, ap, f1, acc
+    tpr = tp/(fp + tp)
+    fpr = fp/(fp + tp)
+
+    print(tpr)
+    print(fpr)
+
+    auc = 0
+    height = 0
+    for i in range(nd):
+        if(true_class[i] == 1):
+            height += tpr
+        else:
+            auc += height * fpr
+
+
+    print(rec, prec, ap, f1, acc, auc)
+    return rec, prec, ap, f1, acc, auc
