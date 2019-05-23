@@ -208,7 +208,7 @@ def voc_eval(detpath,
     # ground truth
     prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
     ap = voc_ap(rec, prec, use_07_metric)
-    f1 = 2*prec*rec/float(prec + rec)
-    acc = (tp + tn)/float(tp + tn + fp + fn)
+    f1 = 2*prec*rec/(prec + rec)
+    acc = (tp + tn)/(tp + tn + fp + fn)
 
     return rec, prec, ap, f1, acc
