@@ -229,7 +229,7 @@ def voc_eval(detpath,
             height += tpr
         else:
             auc += height * fpr
-    auc += height * fpr
+
     print(height)
 
 
