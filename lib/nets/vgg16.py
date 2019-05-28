@@ -292,9 +292,9 @@ class vgg16(Network):
         # Compact Bilinear Pooling
         #cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
         cbp_flat = slim.flatten(pool5, scope='cbp_flatten')
-        print(pool5.get_shape())
-        print(pool5_forNoise.get_shape())
-        print(cbp_flat.get_shape())
+        #print(pool5.get_shape())
+        #print(pool5_forNoise.get_shape())
+        #print(cbp_flat.get_shape())
         # Fully connected layers
         # fc6 = slim.fully_connected(pool5_flat, 4096, scope='bbox_fc6')
         fc6_cbp = slim.fully_connected(cbp_flat, 4096, scope='fc6')
