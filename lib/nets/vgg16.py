@@ -287,10 +287,10 @@ class vgg16(Network):
         # Crop image ROIs
         pool5 = self._crop_pool_layer(net, rois, "pool5")
         # pool5_flat = slim.flatten(pool5, scope='flatten')
-        pool5_forNoise = self._crop_pool_layer(net2, rois, "pool5_forNoise")
+        #pool5_forNoise = self._crop_pool_layer(net2, rois, "pool5_forNoise")
 
         # Compact Bilinear Pooling
-        cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
+        #cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
         cbp_flat = slim.flatten(pool5, scope='cbp_flatten')
         print(pool5.get_shape())
         print(pool5_forNoise.get_shape())
