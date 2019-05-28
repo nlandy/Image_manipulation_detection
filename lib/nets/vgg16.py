@@ -216,7 +216,7 @@ class vgg16(Network):
 
         # Main network
         # Layer SRM
-        net = slim.conv2d(self._image, 3, [5, 5], trainable=is_training, weights_initializer=initializer_srm,
+        net = slim.conv2d(self._image, 3, [5, 5], trainable=is_training, weights_initializer=initializer,
                           activation_fn=None, padding='SAME', stride=1, scope='srm')
         net = truncate_2(net)
 
