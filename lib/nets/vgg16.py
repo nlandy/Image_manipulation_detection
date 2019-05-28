@@ -291,7 +291,7 @@ class vgg16(Network):
 
         # Compact Bilinear Pooling
         cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
-        cbp_flat = slim.flatten(cbp, scope='cbp_flatten')
+        cbp_flat = slim.flatten(pool5, scope='cbp_flatten')
         print(pool5.get_shape())
         print(pool5_forNoise.get_shape())
         print(cbp_flat.get_shape())
