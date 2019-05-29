@@ -57,10 +57,10 @@ class vgg16(Network):
             net = self.build_head(is_training)
 
             # Build Noise stream head
-            net2 = self.build_head_forNoise(is_training, initializer, initializer_srm)
+            net2 = self.build_head_forNoise(is_training, initializer, initializer_srm, '2')
 
             # Build Noise stream head
-            net3 = self.build_head_forNoise(is_training, initializer, initializer_srm)
+            net3 = self.build_head_forNoise(is_training, initializer, initializer_srm, '3')
 
             # Build rpn
             rpn_cls_prob, rpn_bbox_pred, rpn_cls_score, rpn_cls_score_reshape = self.build_rpn(net, is_training, initializer)
@@ -211,7 +211,7 @@ class vgg16(Network):
 
         return net
 
-    def build_head_forNoise(self, is_training, initializer, initializer_srm):
+    def build_head_forNoise(self, is_training, initializer, initializer_srm, ver):
 
         def truncate_2(x):
             neg = ((x + 2) + abs(x + 2)) / 2 - 2
@@ -220,27 +220,27 @@ class vgg16(Network):
         # Main network
         # Layer SRM
         net = slim.conv2d(self._image, 3, [5, 5], trainable=is_training, weights_initializer=initializer,
-                          activation_fn=None, padding='SAME', stride=1, scope='srm')
+                          activation_fn=None, padding='SAME', stride=1, scope='srm'+ver)
         net = truncate_2(net)
 
         # Layer  1
-        net = slim.repeat(net, 2, slim.conv2d, 64, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv1n')
-        net = slim.max_pool2d(net, [2, 2], padding='SAME', scope='pool1n')
+        net = slim.repeat(net, 2, slim.conv2d, 64, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv1n'+ver)
+        net = slim.max_pool2d(net, [2, 2], padding='SAME', scope='pool1n'+ver)
 
         # Layer 2
-        net = slim.repeat(net, 2, slim.conv2d, 128, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv2n')
-        net = slim.max_pool2d(net, [2, 2], padding='SAME', scope='pool2n')
+        net = slim.repeat(net, 2, slim.conv2d, 128, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv2n'+ver)
+        net = slim.max_pool2d(net, [2, 2], padding='SAME', scope='pool2n'+ver)
 
         # Layer 3
-        net = slim.repeat(net, 3, slim.conv2d, 256, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv3n')
-        net = slim.max_pool2d(net, [2, 2], padding='SAME', scope='pool3n')
+        net = slim.repeat(net, 3, slim.conv2d, 256, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv3n'+ver)
+        net = slim.max_pool2d(net, [2, 2], padding='SAME', scope='pool3n'+ver)
 
         # Layer 4
-        net = slim.repeat(net, 3, slim.conv2d, 512, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv4n')
-        net = slim.max_pool2d(net, [2, 2], padding='SAME', scope='pool4n')
+        net = slim.repeat(net, 3, slim.conv2d, 512, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv4n'+ver)
+        net = slim.max_pool2d(net, [2, 2], padding='SAME', scope='pool4n'+ver)
 
         # Layer 5
-        net = slim.repeat(net, 3, slim.conv2d, 512, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv5n')
+        net = slim.repeat(net, 3, slim.conv2d, 512, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv5n'+ver)
 
         # Append network to summaries
         self._act_summaries.append(net)
