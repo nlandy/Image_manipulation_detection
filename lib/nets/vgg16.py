@@ -57,8 +57,10 @@ class vgg16(Network):
             net = self.build_head(is_training)
 
             # Build Noise stream head
-            net2 = None
-            #net2 = self.build_head_forNoise(is_training, initializer, initializer_srm)
+            net2 = self.build_head_forNoise(is_training, initializer, initializer_srm)
+
+            # Build Noise stream head
+            net3 = self.build_head_forNoise(is_training, initializer, initializer_srm)
 
             # Build rpn
             rpn_cls_prob, rpn_bbox_pred, rpn_cls_score, rpn_cls_score_reshape = self.build_rpn(net, is_training, initializer)
@@ -67,7 +69,7 @@ class vgg16(Network):
             rois = self.build_proposals(is_training, rpn_cls_prob, rpn_bbox_pred, rpn_cls_score)
 
             # Build predictions
-            cls_score, cls_prob, bbox_pred = self.build_predictions(net, net2, rois, is_training, initializer, initializer_bbox)
+            cls_score, cls_prob, bbox_pred = self.build_predictions(net, net2, net3, rois, is_training, initializer, initializer_bbox)
 
             self._predictions["rpn_cls_score"] = rpn_cls_score
             self._predictions["rpn_cls_score_reshape"] = rpn_cls_score_reshape
@@ -284,15 +286,18 @@ class vgg16(Network):
                 raise NotImplementedError
         return rois
 
-    def build_predictions(self, net, net2, rois, is_training, initializer, initializer_bbox):
+    def build_predictions(self, net, net2, net3, rois, is_training, initializer, initializer_bbox):
         # Crop image ROIs
         pool5 = self._crop_pool_layer(net, rois, "pool5")
-        # pool5_flat = slim.flatten(pool5, scope='flatten')
-        #pool5_forNoise = self._crop_pool_layer(net2, rois, "pool5_forNoise")
+        pool5_forNoise = self._crop_pool_layer(net2, rois, "pool5_forNoise")
 
         # Compact Bilinear Pooling
-        #cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
-        cbp_flat = slim.flatten(pool5, scope='cbp_flatten')
+        cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
+        pool5_forNoise2 = self._crop_pool_layer(net3, rois, "pool5_forNoise")
+        cbp2 = compact_bilinear_pooling_layer(cbp, pool5_forNoise2, 512)
+
+
+        cbp_flat = slim.flatten(cbp2, scope='cbp_flatten')
 
         # Fully connected layers
         # fc6 = slim.fully_connected(pool5_flat, 4096, scope='bbox_fc6')
