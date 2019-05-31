@@ -256,7 +256,7 @@ class resnetv1(Network):
 
     with tf.variable_scope(self._resnet_scope, self._resnet_scope):
       # Average pooling done by reduce_mean
-      #fc7 = tf.reduce_mean(fc7, axis=[1, 2])
+      fc7 = tf.reduce_mean(fc7, axis=[1, 2])
       fc7_flat = slim.flatten(fc7, scope='fc7_flatten')
       cls_score = slim.fully_connected(fc7_flat, self._num_classes, weights_initializer=initializer,
                                        trainable=is_training, activation_fn=None, scope='cls_score')
