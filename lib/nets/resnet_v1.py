@@ -244,20 +244,17 @@ class resnetv1(Network):
         pool5_forNoise = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
         # Compact Bilinear Pooling
         cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 1024)
+        cbp_flat = slim.flatten(cbp, scope='cbp_flatten')
       else:
         raise NotImplementedError
 
     with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
-      fc7, _ = resnet_v1.resnet_v1(cbp,
-                                   blocks[-1:],
-                                   global_pool=False,
-                                   include_root_block=False,
-                                   scope=self._resnet_scope)
+      fc7 = slim.fully_connected(fc7, 4096, scope='fc6')
 
     with tf.variable_scope(self._resnet_scope, self._resnet_scope):
       # Average pooling done by reduce_mean
-      fc7 = tf.reduce_mean(fc7, axis=[1, 2])
-      fc7_flat = slim.flatten(fc7, scope='fc7_flatten')
+      #fc7 = tf.reduce_mean(fc7, axis=[1, 2])
+      #fc7_flat = slim.flatten(fc7, scope='fc7_flatten')
       cls_score = slim.fully_connected(fc7_flat, self._num_classes, weights_initializer=initializer,
                                        trainable=is_training, activation_fn=None, scope='cls_score')
       cls_prob = self._softmax_layer(cls_score, "cls_prob")
