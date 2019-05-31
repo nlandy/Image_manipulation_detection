@@ -10,6 +10,7 @@ from lib.datasets.factory import get_imdb
 from lib.datasets.imdb import imdb as imdb2
 from lib.layer_utils.roi_data_layer import RoIDataLayer
 from lib.nets.vgg16 import vgg16
+from lib.nets.resnet_v1 import resnetv1
 from lib.utils.timer import Timer
 
 try:
@@ -64,6 +65,8 @@ class Train:
         # Create network
         if cfg.FLAGS.net == 'vgg16':
             self.net = vgg16(batch_size=cfg.FLAGS.ims_per_batch)
+        elif cfg.FLAGS.net == 'resnetv1':
+            self.net = resnetv1(batch_size=cfg.FLAGS.ims_per_batch)
         else:
             raise NotImplementedError
 
@@ -192,13 +195,14 @@ class Train:
             os.makedirs(self.output_dir)
 
         # Store the model snapshot
-        filename = 'vgg16_faster_rcnn_iter_{:d}'.format(iter) + '.ckpt'
+        netname = cfg.FLAGS.net
+        filename = netname + '_faster_rcnn_iter_{:d}'.format(iter) + '.ckpt'
         filename = os.path.join(self.output_dir, filename)
         self.saver.save(sess, filename)
         print('Wrote snapshot to: {:s}'.format(filename))
 
         # Also store some meta information, random state, etc.
-        nfilename = 'vgg16_faster_rcnn_iter_{:d}'.format(iter) + '.pkl'
+        nfilename = netname + '_faster_rcnn_iter_{:d}'.format(iter) + '.pkl'
         nfilename = os.path.join(self.output_dir, nfilename)
         # current state of numpy random
         st0 = np.random.get_state()
