@@ -244,7 +244,7 @@ class resnetv1(Network):
         pool5 = self._crop_pool_layer(net_conv4, rois, "pool5")
         pool5_forNoise = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
         # Compact Bilinear Pooling
-        cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
+        cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 1024)
       else:
         raise NotImplementedError
 
