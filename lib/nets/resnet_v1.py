@@ -247,7 +247,7 @@ class resnetv1(Network):
 
     return rois, cls_prob, bbox_pred
 
-  def get_variables_to_restore(self, variables, var_keep_dic):
+  def get_variables_to_restore(self, variables, var_keep_dic, sess, pretrained_model):
     variables_to_restore = []
 
     for v in variables:
