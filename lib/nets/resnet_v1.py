@@ -99,17 +99,26 @@ class resnetv1(Network):
       initializer_bbox = tf.random_normal_initializer(mean=0.0, stddev=0.001)
     bottleneck = resnet_v1.bottleneck
     # choose different blocks for different number of layers
+
+    def resnet_v1_block(scope, bottleneck, base_depth, num_units, stride):
+      return resnet_utils.Block(scope, bottleneck, [{
+          'depth': base_depth * 4,
+          'depth_bottleneck': base_depth,
+          'stride': 1
+      }] * (num_units - 1) + [{
+          'depth': base_depth * 4,
+          'depth_bottleneck': base_depth,
+          'stride': stride
+      }])
+
     if self._num_layers == 50:
-      blocks = [
-        resnet_utils.Block('block1', bottleneck,
-                           [(256, 64, 1)] * 2 + [(256, 64, 2)]),
-        resnet_utils.Block('block2', bottleneck,
-                           [(512, 128, 1)] * 3 + [(512, 128, 2)]),
-        # Use stride-1 for the last conv4 layer
-        resnet_utils.Block('block3', bottleneck,
-                           [(1024, 256, 1)] * 5 + [(1024, 256, 1)]),
-        resnet_utils.Block('block4', bottleneck, [(2048, 512, 1)] * 3)
-      ]
+        blocks = [resnet_v1_block('block1', bottleneck, base_depth=64, num_units=3, stride=2),
+                       resnet_v1_block('block2', bottleneck, base_depth=128, num_units=4, stride=2),
+                       # use stride 1 for the last conv4 layer
+                       resnet_v1_block('block3', bottleneck, base_depth=256, num_units=6, stride=1),
+                       resnet_v1_block('block4', bottleneck, base_depth=512, num_units=3, stride=1),
+        ]
+
     elif self._num_layers == 101:
       blocks = [
         resnet_utils.Block('block1', bottleneck,
