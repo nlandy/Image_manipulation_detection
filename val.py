@@ -34,14 +34,14 @@ CLASSES = ('__background__',
            'tampered')
 
 # PLEASE specify weight files dir for vgg16
-NETS = {'vgg16': ('vgg16_faster_rcnn_iter_10000.ckpt',), 'res101': ('res101_faster_rcnn_iter_110000.ckpt',)}
+NETS = {'vgg16': ('vgg16_faster_rcnn_iter_10000.ckpt',), 'res50': ('resnetv1_faster_rcnn_iter_1000.ckpt',)}
 DATASETS = {'pascal_voc': ('voc_2007_trainval',), 'pascal_voc_0712': ('voc_2007_trainval+voc_2012_trainval',)}
 
 def parse_args():
     """Parse input arguments."""
     parser = argparse.ArgumentParser(description='Tensorflow Faster R-CNN demo')
-    parser.add_argument('--net', dest='demo_net', help='Network to use [vgg16 res101]',
-                        choices=NETS.keys(), default='vgg16')
+    parser.add_argument('--net', dest='demo_net', help='Network to use [vgg16 res50]',
+                        choices=NETS.keys(), default='res50')
     parser.add_argument('--dataset', dest='dataset', help='Trained dataset [pascal_voc pascal_voc_0712]',
                         choices=DATASETS.keys(), default='pascal_voc_0712')
     args = parser.parse_args()
@@ -70,8 +70,8 @@ if __name__ == '__main__':
     # load network
     if demonet == 'vgg16':
         net = vgg16(batch_size=1)
-    # elif demonet == 'res101':
-        # net = resnetv1(batch_size=1, num_layers=101)
+    elif demonet == 'res101':
+        net = resnetv1(batch_size=1, num_layers=50)
     else:
         raise NotImplementedError
     net.create_architecture(sess, "TEST", 2,
