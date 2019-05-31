@@ -101,7 +101,7 @@ tf.app.flags.DEFINE_boolean('proposal_use_gt', False, "Whether to add ground tru
 ###########################
 # Bounding Box Parameters #
 ###########################
-tf.app.flags.DEFINE_float('roi_fg_threshold', 0.5, "Overlap threshold for a ROI to be considered foreground (if >= FG_THRESH)")
+tf.app.flags.DEFINE_float('roi_fg_threshold', 0.4, "Overlap threshold for a ROI to be considered foreground (if >= FG_THRESH)")
 tf.app.flags.DEFINE_float('roi_bg_threshold_high', 0.5, "Overlap threshold for a ROI to be considered background (class = 0 if overlap in [LO, HI))")
 tf.app.flags.DEFINE_float('roi_bg_threshold_low', 0.1, "Overlap threshold for a ROI to be considered background (class = 0 if overlap in [LO, HI))")
 
