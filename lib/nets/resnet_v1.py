@@ -136,27 +136,27 @@ class resnetv1(Network):
       # other numbers are not supported
       raise NotImplementedError
 
-    assert (0 <= cfg.RESNET.FIXED_BLOCKS < 4)
-    if cfg.RESNET.FIXED_BLOCKS == 3:
+    assert (0 <= cfg.FLAGS.fixed_blocks < 4)
+    if cfg.FLAGS.fixed_blocks == 3:
       with slim.arg_scope(resnet_arg_scope(is_training=False)):
         net = self.build_base()
         net_conv4, _ = resnet_v1.resnet_v1(net,
-                                           blocks[0:cfg.RESNET.FIXED_BLOCKS],
+                                           blocks[0:cfg.FLAGS.fixed_blocks],
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope)
-    elif cfg.RESNET.FIXED_BLOCKS > 0:
+    elif cfg.FLAGS.fixed_blocks > 0:
       with slim.arg_scope(resnet_arg_scope(is_training=False)):
         net = self.build_base()
         net, _ = resnet_v1.resnet_v1(net,
-                                     blocks[0:cfg.RESNET.FIXED_BLOCKS],
+                                     blocks[0:cfg.FLAGS.fixed_blocks],
                                      global_pool=False,
                                      include_root_block=False,
                                      scope=self._resnet_scope)
 
       with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
         net_conv4, _ = resnet_v1.resnet_v1(net,
-                                           blocks[cfg.RESNET.FIXED_BLOCKS:-1],
+                                           blocks[cfg.FLAGS.fixed_blocks:-1],
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope)
