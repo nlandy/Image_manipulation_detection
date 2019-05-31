@@ -70,7 +70,7 @@ if __name__ == '__main__':
     # load network
     if demonet == 'vgg16':
         net = vgg16(batch_size=1)
-    elif demonet == 'res101':
+    elif demonet == 'res50':
         net = resnetv1(batch_size=1, num_layers=50)
     else:
         raise NotImplementedError
