@@ -249,11 +249,7 @@ class resnetv1(Network):
         raise NotImplementedError
 
     with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
-      fc7, _ = resnet_v1.resnet_v1(cbp_flat,
-                                   blocks[-1:],
-                                   global_pool=False,
-                                   include_root_block=False,
-                                   scope=self._resnet_scope)
+      fc7 = slim.fully_connected(cbp_flat, 4096, scope='fc7')
 
     with tf.variable_scope(self._resnet_scope, self._resnet_scope):
       # Average pooling done by reduce_mean
