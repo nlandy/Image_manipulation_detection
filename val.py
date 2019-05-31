@@ -24,7 +24,7 @@ import tensorflow as tf
 from lib.config import config as cfg
 from lib.utils.nms_wrapper import nms
 from lib.utils.test import im_detect
-from nets.resnet_v1 import resnetv1
+from lib.nets.resnet_v1 import resnetv1
 from lib.nets.vgg16 import vgg16
 from lib.utils.timer import Timer
 from train import combined_roidb
