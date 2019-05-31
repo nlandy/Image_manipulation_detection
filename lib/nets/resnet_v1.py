@@ -205,9 +205,9 @@ class resnetv1(Network):
         with tf.control_dependencies([rpn_labels]):
           rois, _ = self._proposal_target_layer(rois, roi_scores, "rpn_rois")
       else:
-        if cfg.TEST.MODE == 'nms':
+        if cfg.FLAGS.test_mode == 'nms':
           rois, _ = self._proposal_layer(rpn_cls_prob, rpn_bbox_pred, "rois")
-        elif cfg.TEST.MODE == 'top':
+        elif cfg.FLAGS.test_mode == 'top':
           rois, _ = self._proposal_top_layer(rpn_cls_prob, rpn_bbox_pred, "rois")
         else:
           raise NotImplementedError
