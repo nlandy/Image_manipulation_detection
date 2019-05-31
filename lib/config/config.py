@@ -56,6 +56,8 @@ tf.app.flags.DEFINE_integer('snapshot_iterations', 5000, "Iteration to take snap
 
 tf.app.flags.DEFINE_integer('fixed_blocks', 3, "number of fixed blocks for resnet")
 
+tf.app.flags.DEFINE_boolean('bn_train', True, "Train batch norm?")
+
 FLAGS2["scales"] = (600,)
 FLAGS2["test_scales"] = (600,)
 

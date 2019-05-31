@@ -35,7 +35,7 @@ def resnet_arg_scope(is_training=True,
     'decay': batch_norm_decay,
     'epsilon': batch_norm_epsilon,
     'scale': batch_norm_scale,
-    'trainable': cfg.RESNET.BN_TRAIN,
+    'trainable': cfg.FLAGS.bn_train,
     'updates_collections': ops.GraphKeys.UPDATE_OPS
   }
 
