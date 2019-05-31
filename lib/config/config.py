@@ -4,6 +4,17 @@ import os.path as osp
 import numpy as np
 import tensorflow as tf
 
+
+####Delete all flags before declare#####
+
+def del_all_flags(FLAGS):
+    flags_dict = FLAGS._flags()
+    keys_list = [keys for keys in flags_dict]
+    for keys in keys_list:
+        FLAGS.__delattr__(keys)
+
+del_all_flags(tf.flags.FLAGS)
+
 FLAGS = tf.app.flags.FLAGS
 FLAGS2 = {}
 
