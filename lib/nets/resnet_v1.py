@@ -244,11 +244,12 @@ class resnetv1(Network):
         pool5_forNoise = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
         # Compact Bilinear Pooling
         cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 1024)
+        cbp_flat = slim.flatten(cbp2, scope='cbp_flatten')
       else:
         raise NotImplementedError
 
     with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
-      fc7, _ = resnet_v1.resnet_v1(cbp,
+      fc7, _ = resnet_v1.resnet_v1(cbp_flat,
                                    blocks[-1:],
                                    global_pool=False,
                                    include_root_block=False,
