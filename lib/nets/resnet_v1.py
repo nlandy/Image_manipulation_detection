@@ -24,7 +24,7 @@ from tensorflow.contrib.layers.python.layers import layers
 from lib.config import config as cfg
 
 def resnet_arg_scope(is_training=True,
-                     weight_decay=cfg.TRAIN.WEIGHT_DECAY,
+                     weight_decay=cfg.weight_decay,
                      batch_norm_decay=0.997,
                      batch_norm_epsilon=1e-5,
                      batch_norm_scale=True):
