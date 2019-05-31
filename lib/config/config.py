@@ -16,7 +16,7 @@ tf.app.flags.DEFINE_integer('rng_seed', 3, "Tensorflow seed for reproducibility"
 ######################
 # Network Parameters #
 ######################
-tf.app.flags.DEFINE_string('net', "vgg16", "The network to be used as backbone")
+tf.app.flags.DEFINE_string('net', "resnetv1", "The network to be used as backbone")
 
 #######################
 # Training Parameters #
