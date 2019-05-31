@@ -213,7 +213,7 @@ class resnetv1(Network):
           raise NotImplementedError
 
       # rcnn
-      if cfg.POOLING_MODE == 'crop':
+      if cfg.FLAGS.POOLING_MODE == 'crop':
         pool5 = self._crop_pool_layer(net_conv4, rois, "pool5")
       else:
         raise NotImplementedError
