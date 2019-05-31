@@ -58,6 +58,8 @@ tf.app.flags.DEFINE_integer('fixed_blocks', 3, "number of fixed blocks for resne
 
 tf.app.flags.DEFINE_boolean('bn_train', True, "Train batch norm?")
 
+tf.app.flags.DEFINE_boolean('POOLING_MODE', True, "Use pooling mode?")
+
 FLAGS2["scales"] = (600,)
 FLAGS2["test_scales"] = (600,)
 
