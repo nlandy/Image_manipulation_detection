@@ -61,6 +61,8 @@ tf.app.flags.DEFINE_boolean('bn_train', True, "Train batch norm?")
 tf.app.flags.DEFINE_string('POOLING_MODE', 'crop', "Use pooling mode?")
 tf.app.flags.DEFINE_boolean('MAX_POOL', True, "Use maxpool?")
 
+tf.app.flags.DEFINE_integer('POOLING_SIZE', 2, "pooling size")
+
 FLAGS2["scales"] = (600,)
 FLAGS2["test_scales"] = (600,)
 
