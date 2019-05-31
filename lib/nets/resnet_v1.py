@@ -69,7 +69,7 @@ class resnetv1(Network):
       y2 = tf.slice(rois, [0, 4], [-1, 1], name="y2") / height
       # Won't be backpropagated to rois anyway, but to save time
       bboxes = tf.stop_gradient(tf.concat([y1, x1, y2, x2], 1))
-      if cfg.RESNET.MAX_POOL:
+      if cfg.FLAGS.MAX_POOL:
         pre_pool_size = cfg.POOLING_SIZE * 2
         crops = tf.image.crop_and_resize(bottom, bboxes, tf.to_int32(batch_ids), [pre_pool_size, pre_pool_size],
                                          name="crops")
