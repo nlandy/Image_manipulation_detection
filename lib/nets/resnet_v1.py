@@ -22,6 +22,7 @@ from tensorflow.python.ops import nn_ops
 from tensorflow.contrib.layers.python.layers import initializers
 from tensorflow.contrib.layers.python.layers import layers
 from lib.config import config as cfg
+from lib.utils.compact_bilinear_pooling import compact_bilinear_pooling_layer
 
 def resnet_arg_scope(is_training=True,
                      weight_decay=cfg.FLAGS.weight_decay,
@@ -81,15 +82,15 @@ class resnetv1(Network):
 
   # Do the first few layers manually, because 'SAME' padding can behave inconsistently
   # for images of different sizes: sometimes 0, sometimes 1
-  def build_base(self):
+  def build_base(self, ver=''):
     with tf.variable_scope(self._resnet_scope, self._resnet_scope):
-      net = resnet_utils.conv2d_same(self._image, 64, 7, stride=2, scope='conv1')
+      net = resnet_utils.conv2d_same(self._image, 64, 7, stride=2, scope='conv1'+ver)
       net = tf.pad(net, [[0, 0], [1, 1], [1, 1], [0, 0]])
-      net = slim.max_pool2d(net, [3, 3], stride=2, padding='VALID', scope='pool1')
+      net = slim.max_pool2d(net, [3, 3], stride=2, padding='VALID', scope='pool1'+ver)
 
     return net
 
-  def build_network(self, sess, is_training=True):
+  def build_network(self, sess, is_training=True, ver=''):
     # select initializers
     if cfg.FLAGS.initializer:
       initializer = tf.truncated_normal_initializer(mean=0.0, stddev=0.01)
@@ -112,34 +113,34 @@ class resnetv1(Network):
       }])
 
     if self._num_layers == 50:
-        blocks = [resnet_v1_block('block1', bottleneck, base_depth=64, num_units=3, stride=2),
-                       resnet_v1_block('block2', bottleneck, base_depth=128, num_units=4, stride=2),
+        blocks = [resnet_v1_block('block1'+ver, bottleneck, base_depth=64, num_units=3, stride=2),
+                       resnet_v1_block('block2'+ver, bottleneck, base_depth=128, num_units=4, stride=2),
                        # use stride 1 for the last conv4 layer
-                       resnet_v1_block('block3', bottleneck, base_depth=256, num_units=6, stride=1),
-                       resnet_v1_block('block4', bottleneck, base_depth=512, num_units=3, stride=1),
+                       resnet_v1_block('block3'+ver, bottleneck, base_depth=256, num_units=6, stride=1),
+                       resnet_v1_block('block4'+ver, bottleneck, base_depth=512, num_units=3, stride=1),
         ]
 
     elif self._num_layers == 101:
       blocks = [
-        resnet_utils.Block('block1', bottleneck,
+        resnet_utils.Block('block1'+ver, bottleneck,
                            [(256, 64, 1)] * 2 + [(256, 64, 2)]),
-        resnet_utils.Block('block2', bottleneck,
+        resnet_utils.Block('block2'+ver, bottleneck,
                            [(512, 128, 1)] * 3 + [(512, 128, 2)]),
         # Use stride-1 for the last conv4 layer
-        resnet_utils.Block('block3', bottleneck,
+        resnet_utils.Block('block3'+ver, bottleneck,
                            [(1024, 256, 1)] * 22 + [(1024, 256, 1)]),
-        resnet_utils.Block('block4', bottleneck, [(2048, 512, 1)] * 3)
+        resnet_utils.Block('block4'+ver, bottleneck, [(2048, 512, 1)] * 3)
       ]
     elif self._num_layers == 152:
       blocks = [
-        resnet_utils.Block('block1', bottleneck,
+        resnet_utils.Block('block1'+ver, bottleneck,
                            [(256, 64, 1)] * 2 + [(256, 64, 2)]),
-        resnet_utils.Block('block2', bottleneck,
+        resnet_utils.Block('block2'+ver, bottleneck,
                            [(512, 128, 1)] * 7 + [(512, 128, 2)]),
         # Use stride-1 for the last conv4 layer
-        resnet_utils.Block('block3', bottleneck,
+        resnet_utils.Block('block3'+ver, bottleneck,
                            [(1024, 256, 1)] * 35 + [(1024, 256, 1)]),
-        resnet_utils.Block('block4', bottleneck, [(2048, 512, 1)] * 3)
+        resnet_utils.Block('block4'+ver, bottleneck, [(2048, 512, 1)] * 3)
       ]
     else:
       # other numbers are not supported
@@ -154,6 +155,13 @@ class resnetv1(Network):
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope)
+        net_noise = self.build_base(ver='n')
+        net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
+                                           blocks[0:cfg.FLAGS.fixed_blocks],
+                                           global_pool=False,
+                                           include_root_block=False,
+                                           scope=self._resnet_scope, ver='n')
+
     elif cfg.FLAGS.fixed_blocks > 0:
       with slim.arg_scope(resnet_arg_scope(is_training=False)):
         net = self.build_base()
@@ -162,6 +170,12 @@ class resnetv1(Network):
                                      global_pool=False,
                                      include_root_block=False,
                                      scope=self._resnet_scope)
+         net_noise = self.build_base(ver='n')
+         net_noise, _ = resnet_v1.resnet_v1(net_noise,
+                                            blocks[0:cfg.FLAGS.fixed_blocks],
+                                            global_pool=False,
+                                            include_root_block=False,
+                                            scope=self._resnet_scope, ver='n')
 
       with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
         net_conv4, _ = resnet_v1.resnet_v1(net,
@@ -169,6 +183,11 @@ class resnetv1(Network):
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope)
+         net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
+                                            blocks[0:cfg.FLAGS.fixed_blocks],
+                                            global_pool=False,
+                                            include_root_block=False,
+                                            scope=self._resnet_scope, ver='n')
     else:  # cfg.RESNET.FIXED_BLOCKS == 0
       with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
         net = self.build_base()
@@ -177,6 +196,12 @@ class resnetv1(Network):
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope)
+        net_noise = self.build_base(ver='n')
+        net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
+                                           blocks[0:cfg.FLAGS.fixed_blocks],
+                                           global_pool=False,
+                                           include_root_block=False,
+                                           scope=self._resnet_scope, ver='n')
 
     self._act_summaries.append(net_conv4)
     self._layers['head'] = net_conv4
@@ -215,11 +240,14 @@ class resnetv1(Network):
       # rcnn
       if cfg.FLAGS.POOLING_MODE == 'crop':
         pool5 = self._crop_pool_layer(net_conv4, rois, "pool5")
+        pool5 = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
+        # Compact Bilinear Pooling
+        cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
       else:
         raise NotImplementedError
 
     with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
-      fc7, _ = resnet_v1.resnet_v1(pool5,
+      fc7, _ = resnet_v1.resnet_v1(cbp,
                                    blocks[-1:],
                                    global_pool=False,
                                    include_root_block=False,
