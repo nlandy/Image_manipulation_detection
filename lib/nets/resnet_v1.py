@@ -258,11 +258,11 @@ class resnetv1(Network):
     with tf.variable_scope(self._resnet_scope, self._resnet_scope):
       # Average pooling done by reduce_mean
       fc7 = tf.reduce_mean(fc7, axis=[1, 2])
-      fc7_flat = slim.flatten(fc7, scope='fc7_flatten')
-      cls_score = slim.fully_connected(fc7_flat, self._num_classes, weights_initializer=initializer,
+      #fc7_flat = slim.flatten(fc7, scope='fc7_flatten')
+      cls_score = slim.fully_connected(fc7, self._num_classes, weights_initializer=initializer,
                                        trainable=is_training, activation_fn=None, scope='cls_score')
       cls_prob = self._softmax_layer(cls_score, "cls_prob")
-      bbox_pred = slim.fully_connected(fc7_flat, self._num_classes * 4, weights_initializer=initializer_bbox,
+      bbox_pred = slim.fully_connected(fc7, self._num_classes * 4, weights_initializer=initializer_bbox,
                                        trainable=is_training,
                                        activation_fn=None, scope='bbox_pred')
     self._predictions["rpn_cls_score"] = rpn_cls_score
