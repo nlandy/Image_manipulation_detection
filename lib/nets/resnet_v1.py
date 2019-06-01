@@ -249,7 +249,7 @@ class resnetv1(Network):
         raise NotImplementedError
 
     with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
-      fc7 = resnet_v1.resnet_v1(cbp,
+      fc7 = resnet_v1.resnet_v1(pool5,
                                    blocks[-1:],
                                    global_pool=False,
                                    include_root_block=False,
