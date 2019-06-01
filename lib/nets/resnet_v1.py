@@ -241,9 +241,9 @@ class resnetv1(Network):
       # rcnn
       if cfg.FLAGS.POOLING_MODE == 'crop':
         pool5 = self._crop_pool_layer(net_conv4, rois, "pool5")
-        pool5_forNoise = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
+        #pool5_forNoise = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
         # Compact Bilinear Pooling
-        cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 1024)
+        #cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 1024)
         #cbp_flat = slim.flatten(cbp, scope='cbp_flatten')
       else:
         raise NotImplementedError
