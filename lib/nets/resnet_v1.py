@@ -156,7 +156,7 @@ class resnetv1(Network):
                                            include_root_block=False,
                                            scope=self._resnet_scope)
         net_noise = self.build_base(ver='n')
-        net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
+        net_conv4_noise, _ = resnet_v1.resnet_v1_50(net_noise,
                                            blocks[0:cfg.FLAGS.fixed_blocks],
                                            global_pool=False,
                                            include_root_block=False,
