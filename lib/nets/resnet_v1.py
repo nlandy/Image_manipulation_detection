@@ -176,7 +176,7 @@ class resnetv1(Network):
                                             blocks[0:cfg.FLAGS.fixed_blocks],
                                             global_pool=False,
                                             include_root_block=False,
-                                            scope=self._resnet_scope+'_noise')
+                                            scope=self._resnet_scope+'_noise2')
 
       with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
         net_conv4, _ = resnet_v1.resnet_v1(net,
@@ -188,7 +188,7 @@ class resnetv1(Network):
                                             blocks[0:cfg.FLAGS.fixed_blocks],
                                             global_pool=False,
                                             include_root_block=False,
-                                            scope=self._resnet_scope+'_noise2')
+                                            scope=self._resnet_scope+'_noise')
     else:  # cfg.RESNET.FIXED_BLOCKS == 0
       with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
         net = self.build_base()
@@ -206,7 +206,7 @@ class resnetv1(Network):
 
     self._act_summaries.append(net_conv4)
     self._layers['head'] = net_conv4
-    with tf.variable_scope(self._resnet_scope, self._resnet_scope):
+    with tf.variable_scope(self._resnet_scope, self._resnet_scope+'noise'):
       # build the anchors for the image
       self._anchor_component()
 
