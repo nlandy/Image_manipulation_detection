@@ -159,7 +159,6 @@ class resnetv1(Network):
         net_conv4_noise, _ = resnet_v1.resnet_v1_50(net_noise,
                                            blocks[0:cfg.FLAGS.fixed_blocks],
                                            global_pool=False,
-                                           include_root_block=False,
                                            scope=self._resnet_scope)
 
     elif cfg.FLAGS.fixed_blocks > 0:
