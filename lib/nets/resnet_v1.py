@@ -154,13 +154,13 @@ class resnetv1(Network):
                                            blocks[0:cfg.FLAGS.fixed_blocks],
                                            global_pool=False,
                                            include_root_block=False,
-                                           scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+                                           scope=self._resnet_scope)
         net_noise = self.build_base(ver='n')
         net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
                                            blocks[0:cfg.FLAGS.fixed_blocks],
                                            global_pool=False,
                                            include_root_block=False,
-                                           scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+                                           scope=self._resnet_scope+'_noise')
 
     elif cfg.FLAGS.fixed_blocks > 0:
       with slim.arg_scope(resnet_arg_scope(is_training=False)):
@@ -169,26 +169,26 @@ class resnetv1(Network):
                                      blocks[0:cfg.FLAGS.fixed_blocks],
                                      global_pool=False,
                                      include_root_block=False,
-                                     scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+                                     scope=self._resnet_scope)
 
         net_noise = self.build_base(ver='n')
         net_noise, _ = resnet_v1.resnet_v1(net_noise,
                                             blocks[0:cfg.FLAGS.fixed_blocks],
                                             global_pool=False,
                                             include_root_block=False,
-                                            scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+                                            scope=self._resnet_scope+'_noise')
 
       with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
         net_conv4, _ = resnet_v1.resnet_v1(net,
                                            blocks[cfg.FLAGS.fixed_blocks:-1],
                                            global_pool=False,
                                            include_root_block=False,
-                                           scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+                                           scope=self._resnet_scope)
         net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
                                             blocks[0:cfg.FLAGS.fixed_blocks],
                                             global_pool=False,
                                             include_root_block=False,
-                                            scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+                                            scope=self._resnet_scope+'_noise2')
     else:  # cfg.RESNET.FIXED_BLOCKS == 0
       with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
         net = self.build_base()
@@ -196,13 +196,13 @@ class resnetv1(Network):
                                            blocks[0:-1],
                                            global_pool=False,
                                            include_root_block=False,
-                                           scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+                                           scope=self._resnet_scope)
         net_noise = self.build_base(ver='n')
         net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
                                            blocks[0:cfg.FLAGS.fixed_blocks],
                                            global_pool=False,
                                            include_root_block=False,
-                                           scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+                                           scope=self._resnet_scope+'_noise')
 
     self._act_summaries.append(net_conv4)
     self._layers['head'] = net_conv4
