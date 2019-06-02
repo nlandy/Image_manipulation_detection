@@ -21,7 +21,7 @@ FLAGS2 = {}
 ######################
 # General Parameters #
 ######################
-FLAGS2["pixel_means"] = np.array([[[137.1795, 0, 63.5088]]])
+FLAGS2["pixel_means"] = np.array([[[63.5088, 0, 137.1795]]])
 tf.app.flags.DEFINE_integer('rng_seed', 3, "Tensorflow seed for reproducibility")
 
 ######################
