@@ -14,11 +14,23 @@ if __name__ == '__main__':
     mypath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/SegmentationObject/'
     annopath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/Annotations/'
     isetpath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/ImageSets/Main/trainval.txt'
+    trainpath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/ImageSets/Main/train.txt'
+    valpath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/ImageSets/Main/val.txt'
     seg_files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 
+    NUM_TRAIN = 150
+    ctr = 0
+
     file = open(isetpath, 'w')
+    file_train = open(trainpath, 'w')
+    file_val = open(testpath, 'w')
 
     for f in seg_files:
         name = f[0:-15]
         file.write(name + '\n')
+        if ctr < NUM_TRAIN:
+            file_train.write(name + '\n')
+        else:
+            file_val.write(name + '\n')
+        ctr += 1
     file.close()
