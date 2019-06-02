@@ -14,6 +14,7 @@ __sets = {}
 from lib.datasets.pascal_voc import pascal_voc
 from lib.datasets.coco import coco
 from lib.datasets.DIY_pascal_voc import DIY_pascal_voc
+from lib.datasets.Columbia import Columbia_pascal_voc
 
 import numpy as np
 
@@ -39,6 +40,11 @@ for year in ['2007']:
     for split in ['val']:
         name = 'DIY_dataset'
         __sets[name] = (lambda split=split, year=year: DIY_pascal_voc(split, year))
+
+for year in ['2007']:
+    for split in ['trainval']:
+        name = 'Columbia'
+        __sets[name] = (lambda split=split, year=year: Columbia_pascal_voc(split, year))
 
 
 def get_imdb(name):
