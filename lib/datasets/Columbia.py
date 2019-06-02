@@ -200,7 +200,7 @@ class Columbia_pascal_voc(imdb):
         annopath = self._devkit_path + '/Main' + '/Annotations/' + '{:s}.xml'
         imagesetfile = os.path.join(
             self._devkit_path,
-            'Main',
+            'Columbia',
             'ImageSets',
             'Main',
             self._image_set + '.txt')
