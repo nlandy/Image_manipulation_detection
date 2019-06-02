@@ -152,7 +152,6 @@ class Train:
             timer.tic()
             # Get training data, one batch at a time
             blobs = self.data_layer.forward()
-            print(blobs)
             iter += 1
             # Compute the graph without summary
             if iter % 100 == 0:
