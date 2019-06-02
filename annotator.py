@@ -1,8 +1,5 @@
 from os import listdir
 from os.path import isfile, join
-mypath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/SegmentationObject/'
-annopath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/Annotations/'
-seg_files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 
 from random import randint
 from PIL import Image
@@ -35,23 +32,28 @@ def create_xml(savefile, xmin, ymin, xmax, ymax):
     new_obj.append(bndbox)
     root.append(new_obj)
     tree.write(savefile)
+if __name__ == '__main__':
+    mypath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/SegmentationObject/'
+    annopath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/Annotations/'
+    seg_files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+    for f in seg_files:
+        segpath = mypath + f
+        name = f[0:-4]
+        annopath_f = annopath + name + '.xml'
 
-for f in seg_files:
-    segpath = mypath + f
-    name = f[0:-4]
-    annopath_f = annopath + name + '.xml'
+        print(segpath)
 
-    print(segpath)
+        seg = Image.open(segpath)
+        print(seg)
+        seg.convert('RGB')
+        print(seg)
+        seg_np = np.asarray(np)
+        print(seg_np.shape)
+        seg_np_red = seg_np[:,:,0]
+        indices = np.where(seg_np_red == 0)
+        minx = np.min(indices[1])
+        maxx = np.max(indices[1])
+        miny = np.min(indices[0])
+        maxy = np.max(indices[0])
 
-    seg = Image.open(segpath)
-    seg.convert('RGB')
-    seg_np = np.asarray(np)
-    print(seg_np.shape)
-    seg_np_red = seg_np[:,:,0]
-    indices = np.where(seg_np_red == 0)
-    minx = np.min(indices[1])
-    maxx = np.max(indices[1])
-    miny = np.min(indices[0])
-    maxy = np.max(indices[0])
-
-    create_xml(annopath_f, xmin, ymin, xmax, ymax)
+        create_xml(annopath_f, xmin, ymin, xmax, ymax)
