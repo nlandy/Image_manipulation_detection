@@ -38,7 +38,7 @@ tf.app.flags.DEFINE_float('momentum', 0.9, "Momentum")
 tf.app.flags.DEFINE_float('gamma', 0.1, "Factor for reducing the learning rate")
 
 tf.app.flags.DEFINE_integer('batch_size', 256, "Network batch size during training")
-tf.app.flags.DEFINE_integer('max_iters', 1000, "Max iteration")
+tf.app.flags.DEFINE_integer('max_iters', 256, "Max iteration")
 tf.app.flags.DEFINE_integer('step_size', 30000, "Step size for reducing the learning rate, currently only support one step")
 tf.app.flags.DEFINE_integer('display', 10, "Iteration intervals for showing the loss during training, on command line interface")
 
