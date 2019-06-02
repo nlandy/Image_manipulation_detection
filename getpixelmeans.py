@@ -69,6 +69,3 @@ if __name__ == '__main__':
         seg_np = np.asarray(seg)
         #print(seg_np.shape)
         meanr, meang, meanb = np.mean(seg_np, axis=(0,1))
-
-
-        create_xml(annopath_f, xmin, ymin, xmax, ymax)
