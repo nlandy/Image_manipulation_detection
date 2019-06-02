@@ -41,6 +41,8 @@ for f in seg_files:
     name = f[0:-4]
     annopath_f = annopath + name + '.xml'
 
+    print(segpath)
+
     seg = Image.open(segpath)
     seg.convert('RGB')
     seg_np = np.asarray(np)
