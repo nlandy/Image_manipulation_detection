@@ -46,7 +46,7 @@ if __name__ == '__main__':
     seg_files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
     for f in seg_files:
         segpath = mypath + f
-        name = f[0:-4]
+        name = f[0:-15]
         annopath_f = annopath + name + '.xml'
 
         print(segpath)
