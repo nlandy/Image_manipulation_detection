@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
         seg = Image.open(segpath)
         print(seg)
-        seg.convert('RGB')
+        #seg.convert('RGB')
         print(seg)
         seg_np = np.asarray(np)
         print(seg_np.shape)
