@@ -61,9 +61,9 @@ if __name__ == '__main__':
         #print(seg_np.shape)
         seg_np_red = seg_np[:,:,0]
         indices = np.where(seg_np_red == 0)
-        xmin = np.min(indices[1])
-        xmax = np.max(indices[1])
-        ymin = np.min(indices[0])
-        ymax = np.max(indices[0])
+        xmin = np.min(indices[1])+1
+        xmax = np.max(indices[1])+1
+        ymin = np.min(indices[0])+1
+        ymax = np.max(indices[0])+1
 
         create_xml(annopath_f, xmin, ymin, xmax, ymax)
