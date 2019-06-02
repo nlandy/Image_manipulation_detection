@@ -32,7 +32,7 @@ class Columbia_pascal_voc(imdb):
         self._classes = ('__background__',  # always index 0
                          'tampered')
         self._class_to_ind = dict(list(zip(self.classes, list(range(self.num_classes)))))
-        self._image_ext = '.tiff'
+        self._image_ext = '.tif'
         self._image_index = self._load_image_set_index()
         # Default to roidb handler
         self._roidb_handler = self.gt_roidb
