@@ -16,8 +16,8 @@ def create_xml(savefile, xmin, ymin, xmax, ymax):
         element = Element(tag, property_map)
         element.text = content
         return element
-    open(savefile, 'w')
-    close(savefile)
+    file = open(savefile, 'w')
+    file.close()
 
     tree = ET.parse(savefile)
     root = tree.getroot()
