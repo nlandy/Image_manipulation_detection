@@ -197,7 +197,7 @@ class Columbia_pascal_voc(imdb):
                                        dets[k, 2] + 1, dets[k, 3] + 1))
 
     def _do_python_eval(self, output_dir='output'):
-        annopath = self._devkit_path + '/Columbia' + '/Main' + '/Annotations/' + '{:s}.xml'
+        annopath = self._devkit_path + '/Columbia' + '/Annotations/' + '{:s}.xml'
         imagesetfile = os.path.join(
             self._devkit_path,
             'Columbia',
