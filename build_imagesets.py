@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     file = open(isetpath, 'w')
     file_train = open(trainpath, 'w')
-    file_val = open(testpath, 'w')
+    file_val = open(valpath, 'w')
 
     for f in seg_files:
         name = f[0:-15]
