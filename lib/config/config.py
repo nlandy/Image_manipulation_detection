@@ -33,7 +33,7 @@ tf.app.flags.DEFINE_string('net', "vgg16", "The network to be used as backbone")
 # Training Parameters #
 #######################
 tf.app.flags.DEFINE_float('weight_decay', 0.0005, "Weight decay, for regularization")
-tf.app.flags.DEFINE_float('learning_rate', 0.00001, "Learning rate")
+tf.app.flags.DEFINE_float('learning_rate', 0.00000001, "Learning rate")
 tf.app.flags.DEFINE_float('momentum', 0.9, "Momentum")
 tf.app.flags.DEFINE_float('gamma', 0.1, "Factor for reducing the learning rate")
 
