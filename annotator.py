@@ -18,24 +18,24 @@ def create_xml(savefile, xmin, ymin, xmax, ymax):
         return element
     file = open(savefile, 'w')
 
-
-    new_obj = Element('object', {})
+    anno = Element('annotation', {})
+    new_obj = SubElement(anno, 'object', {})
     new_obj.append(create_node('name', {}, 'tampered'))
-    bndbox = Element('bndbox', {})
+    bndbox = SubElement(anno, 'bndbox', {})
     bndbox.append(create_node('xmin', {}, str(xmin)))
     bndbox.append(create_node('ymin', {}, str(ymin)))
     bndbox.append(create_node('xmax', {}, str(xmax)))
     bndbox.append(create_node('ymax', {}, str(ymax)))
     new_obj.append(bndbox)
 
+    anno_str = ET.tostring(anno).decode("utf-8")
     new_obj_str = ET.tostring(new_obj).decode("utf-8")
     bnd_box_str = ET.tostring(bndbox).decode("utf-8")
 
     print(new_obj_str)
     print(bnd_box_str)
 
-    file.write(new_obj_str)
-    file.write(bnd_box_str)
+    file.write(anno_str)
 
     file.close()
 
