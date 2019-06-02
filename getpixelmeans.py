@@ -68,4 +68,10 @@ if __name__ == '__main__':
         #print(seg)
         seg_np = np.asarray(seg)
         #print(seg_np.shape)
-        meanr, meang, meanb = np.mean(seg_np, axis=(0,1))
+        meanr, meang, meanb += np.mean(seg_np, axis=(0,1))
+
+    meanr /= num_images
+    meang /= num_images
+    meanb /= num_images
+
+    print((meanr, meang, meanb))
