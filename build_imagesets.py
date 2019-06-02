@@ -32,7 +32,7 @@ if __name__ == '__main__':
             file_train.write(name + '\n')
         else:
             file_val.write(name + '\n')
-        print('Image ' + str(cnt) + '...\n')
+        print('Image ' + str(ctr) + '...\n')
         ctr += 1
     file.close()
     file_train.close()
