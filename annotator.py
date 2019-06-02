@@ -16,7 +16,7 @@ def create_xml(savefile, xmin, ymin, xmax, ymax):
         element = Element(tag, property_map)
         element.text = content
         return element
-    open(savefile, 'r')
+    open(savefile, 'w')
     close(savefile)
 
     tree = ET.parse(savefile)
@@ -33,6 +33,8 @@ def create_xml(savefile, xmin, ymin, xmax, ymax):
     new_obj.append(bndbox)
     root.append(new_obj)
     tree.write(savefile)
+
+
 if __name__ == '__main__':
     mypath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/SegmentationObject/'
     annopath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/Annotations/'
