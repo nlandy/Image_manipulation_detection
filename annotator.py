@@ -17,12 +17,8 @@ def create_xml(savefile, xmin, ymin, xmax, ymax):
         element.text = content
         return element
     file = open(savefile, 'w')
-    file.close()
 
-    tree = ET.parse(savefile)
-    root = tree.getroot()
-    for obj in root.findall('object'):
-        root.remove(obj)
+
     new_obj = Element('object', {})
     new_obj.append(create_node('name', {}, 'tampered'))
     bndbox = Element('bndbox', {})
@@ -31,8 +27,11 @@ def create_xml(savefile, xmin, ymin, xmax, ymax):
     bndbox.append(create_node('xmax', {}, str(xmax)))
     bndbox.append(create_node('ymax', {}, str(ymax)))
     new_obj.append(bndbox)
-    root.append(new_obj)
-    tree.write(savefile)
+
+    file.write(ET.tostring(new_obj))
+    file.write(ET.tostring(bndbox))
+
+    file.close()
 
 
 if __name__ == '__main__':
