@@ -44,6 +44,7 @@ for f in seg_files:
     seg = Image.open(segpath)
     seg.convert('RGB')
     seg_np = np.asarray(np)
+    print(seg_np.shape)
     seg_np_red = seg_np[:,:,0]
     indices = np.where(seg_np_red == 0)
     minx = np.min(indices[1])
