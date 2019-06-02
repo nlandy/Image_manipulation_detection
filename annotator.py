@@ -28,8 +28,11 @@ def create_xml(savefile, xmin, ymin, xmax, ymax):
     bndbox.append(create_node('ymax', {}, str(ymax)))
     new_obj.append(bndbox)
 
-    file.write(ET.tostring(new_obj))
-    file.write(ET.tostring(bndbox))
+    new_obj_str = ET.tostring(new_obj)
+    bnd_box_str = ET.tostring(bndbox)
+
+    file.write(new_obj_str)
+    file.write(bnd_box_str)
 
     file.close()
 
