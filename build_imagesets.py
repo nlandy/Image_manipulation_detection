@@ -13,12 +13,12 @@ from shutil import copyfile
 if __name__ == '__main__':
     mypath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/SegmentationObject/'
     annopath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/Annotations/'
-    isetpath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/ImageSets/trainval.txt'
+    isetpath = '/home/nlandy/Image_manipulation_detection/data/Columbia/Columbia/ImageSets/Main/trainval.txt'
     seg_files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 
     file = open(isetpath, 'w')
 
     for f in seg_files:
-        name = f[0:-4]
+        name = f[0:-15]
         file.write(name + '\n')
     file.close()
