@@ -134,12 +134,13 @@ class Columbia_pascal_voc(imdb):
         objs = tree.findall('object')
 
         num_objs = len(objs)
+        print(num_objs)
 
-        boxes = np.zeros((num_objs, 4), dtype=np.uint64)
-        gt_classes = np.zeros((num_objs), dtype=np.int64)
-        overlaps = np.zeros((num_objs, self.num_classes), dtype=np.float64)
+        boxes = np.zeros((num_objs, 4), dtype=np.uint16)
+        gt_classes = np.zeros((num_objs), dtype=np.int32)
+        overlaps = np.zeros((num_objs, self.num_classes), dtype=np.float32)
         # "Seg" area for pascal is just the box area
-        seg_areas = np.zeros((num_objs), dtype=np.float64)
+        seg_areas = np.zeros((num_objs), dtype=np.float32)
 
         # Load object bounding boxes into a data frame.
         for ix, obj in enumerate(objs):
