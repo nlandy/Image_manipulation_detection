@@ -1,5 +1,6 @@
 from os import listdir
 from os.path import isfile, join
+import os
 
 from random import randint
 from PIL import Image
