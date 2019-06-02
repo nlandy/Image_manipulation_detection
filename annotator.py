@@ -31,6 +31,9 @@ def create_xml(savefile, xmin, ymin, xmax, ymax):
     new_obj_str = ET.tostring(new_obj)
     bnd_box_str = ET.tostring(bndbox)
 
+    print(new_obj_str)
+    print(bnd_box_str)
+
     file.write(new_obj_str)
     file.write(bnd_box_str)
 
