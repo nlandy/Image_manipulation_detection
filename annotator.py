@@ -44,14 +44,14 @@ if __name__ == '__main__':
 
         print(segpath)
 
-        print(os.path.isfile(segpath))
+        #print(os.path.isfile(segpath))
 
         seg = Image.open(segpath)
-        print(seg)
-        #seg.convert('RGB')
-        print(seg)
-        seg_np = np.asarray(np)
-        print(seg_np.shape)
+        #print(seg)
+        seg.convert('RGB')
+        #print(seg)
+        seg_np = np.asarray(seg)
+        #print(seg_np.shape)
         seg_np_red = seg_np[:,:,0]
         indices = np.where(seg_np_red == 0)
         minx = np.min(indices[1])
