@@ -43,6 +43,8 @@ if __name__ == '__main__':
 
         print(segpath)
 
+        print(os.path.isfile(segpath))
+
         seg = Image.open(segpath)
         print(seg)
         seg.convert('RGB')
