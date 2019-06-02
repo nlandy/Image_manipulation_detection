@@ -134,7 +134,6 @@ class Columbia_pascal_voc(imdb):
         objs = tree.findall('object')
 
         num_objs = len(objs)
-        print(num_objs)
 
         boxes = np.zeros((num_objs, 4), dtype=np.uint16)
         gt_classes = np.zeros((num_objs), dtype=np.int32)
