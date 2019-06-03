@@ -57,8 +57,7 @@ class vgg16(Network):
             net = self.build_head(is_training)
 
             # Build Noise stream head
-            net2 = None
-            #net2 = self.build_head_forNoise(is_training, initializer, initializer_srm, '2')
+            net2 = self.build_head_forNoise(is_training, initializer, initializer_srm, '2')
 
             # Build Noise stream head
             net3 = None
@@ -291,15 +290,15 @@ class vgg16(Network):
     def build_predictions(self, net, net2, net3, rois, is_training, initializer, initializer_bbox):
         # Crop image ROIs
         pool5 = self._crop_pool_layer(net, rois, "pool5")
-        #pool5_forNoise = self._crop_pool_layer(net2, rois, "pool5_forNoise")
+        pool5_forNoise = self._crop_pool_layer(net2, rois, "pool5_forNoise")
 
         # Compact Bilinear Pooling
-        #cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
+        cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
         #pool5_forNoise2 = self._crop_pool_layer(net3, rois, "pool5_forNoise")
         #cbp2 = compact_bilinear_pooling_layer(cbp, pool5_forNoise2, 512)
 
 
-        cbp_flat = slim.flatten(pool5, scope='cbp_flatten')
+        cbp_flat = slim.flatten(cbp, scope='cbp_flatten')
 
         # Fully connected layers
         # fc6 = slim.fully_connected(pool5_flat, 4096, scope='bbox_fc6')
