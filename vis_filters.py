@@ -87,6 +87,7 @@ def get_model():
 
     filters = sess.run(srm2)
     print(filters.shape)
+    return filters
 
     #print('Loaded network {:s}'.format(tfmodel))
 
