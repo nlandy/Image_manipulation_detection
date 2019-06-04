@@ -82,7 +82,7 @@ def get_model():
     print('Loaded network {:s}'.format(tfmodel))
 
     imdb, _ = combined_roidb("Columbia")
-    return sess
+    return sess, net
 
     #test_net(sess, net, imdb, weights_filename='output')
 
