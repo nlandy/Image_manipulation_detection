@@ -85,7 +85,7 @@ def get_model():
     for i in variables:
         print(i)
 
-    print(srm2.eval())
+    print(sess.run(srm2))
 
     #print('Loaded network {:s}'.format(tfmodel))
 
