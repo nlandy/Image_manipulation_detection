@@ -30,6 +30,8 @@ from lib.utils.timer import Timer
 from train import combined_roidb
 from lib.utils.test import test_net
 
+import matplotlib.pyplot as plt
+
 CLASSES = ('__background__',
            'tampered')
 
@@ -87,7 +89,11 @@ def get_model():
 
     filters = sess.run(srm2)
     print(filters.shape)
-    return filters
+
+    plt.imsave('filt0.jpg', filters[:, :, :, 0])
+    plt.imsave('filt1.jpg', filters[:, :, :, 1])
+    plt.imsave('filt2.jpg', filters[:, :, :, 2])
+
 
     #print('Loaded network {:s}'.format(tfmodel))
 
