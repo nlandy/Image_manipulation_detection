@@ -155,12 +155,12 @@ class resnetv1(Network):
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope)
-        net_noise = self.build_base(ver='n')
-        net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
-                                           blocks[0:cfg.FLAGS.fixed_blocks],
-                                           global_pool=False,
-                                           include_root_block=False,
-                                           scope=self._resnet_scope, reuse=True)
+        # net_noise = self.build_base(ver='n')
+        # net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
+        #                                    blocks[0:cfg.FLAGS.fixed_blocks],
+        #                                    global_pool=False,
+        #                                    include_root_block=False,
+        #                                    scope=self._resnet_scope, reuse=True)
 
     elif cfg.FLAGS.fixed_blocks > 0:
       with slim.arg_scope(resnet_arg_scope(is_training=False)):
@@ -171,12 +171,12 @@ class resnetv1(Network):
                                      include_root_block=False,
                                      scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
 
-        net_noise = self.build_base(ver='n')
-        net_noise, _ = resnet_v1.resnet_v1(net_noise,
-                                            blocks[0:cfg.FLAGS.fixed_blocks],
-                                            global_pool=False,
-                                            include_root_block=False,
-                                            scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+        # net_noise = self.build_base(ver='n')
+        # net_noise, _ = resnet_v1.resnet_v1(net_noise,
+        #                                     blocks[0:cfg.FLAGS.fixed_blocks],
+        #                                     global_pool=False,
+        #                                     include_root_block=False,
+        #                                     scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
 
       with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
         net_conv4, _ = resnet_v1.resnet_v1(net,
@@ -184,11 +184,11 @@ class resnetv1(Network):
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
-        net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
-                                            blocks[0:cfg.FLAGS.fixed_blocks],
-                                            global_pool=False,
-                                            include_root_block=False,
-                                            scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+        # net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
+        #                                     blocks[0:cfg.FLAGS.fixed_blocks],
+        #                                     global_pool=False,
+        #                                     include_root_block=False,
+        #                                     scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
     else:  # cfg.RESNET.FIXED_BLOCKS == 0
       with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
         net = self.build_base()
@@ -197,12 +197,12 @@ class resnetv1(Network):
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
-        net_noise = self.build_base(ver='n')
-        net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
-                                           blocks[0:cfg.FLAGS.fixed_blocks],
-                                           global_pool=False,
-                                           include_root_block=False,
-                                           scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
+        # net_noise = self.build_base(ver='n')
+        # net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
+        #                                    blocks[0:cfg.FLAGS.fixed_blocks],
+        #                                    global_pool=False,
+        #                                    include_root_block=False,
+        #                                    scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
 
     self._act_summaries.append(net_conv4)
     self._layers['head'] = net_conv4
@@ -241,15 +241,15 @@ class resnetv1(Network):
       # rcnn
       if cfg.FLAGS.POOLING_MODE == 'crop':
         pool5 = self._crop_pool_layer(net_conv4, rois, "pool5")
-        pool5_forNoise = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
+        #pool5_forNoise = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
         # Compact Bilinear Pooling
-        cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 1024)
-        cbp_flat = slim.flatten(cbp, scope='cbp_flatten')
+        #cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 1024)
+        #cbp_flat = slim.flatten(cbp, scope='cbp_flatten')
       else:
         raise NotImplementedError
 
     with slim.arg_scope(resnet_arg_scope(is_training=is_training)):
-      fc7 = slim.fully_connected(cbp_flat, 4096, scope='fc6')
+      fc7 = slim.fully_connected(pool5, 4096, scope='fc6')
 
     with tf.variable_scope(self._resnet_scope, self._resnet_scope):
       # Average pooling done by reduce_mean
