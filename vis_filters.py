@@ -76,13 +76,18 @@ def get_model():
         raise NotImplementedError
     net.create_architecture(sess, "TEST", 2,
                             tag='default', anchor_scales=[8, 16, 32])
+
+    srm2 = tf.get_variable("fc6_conv", [5, 5, 3, 3], trainable=False)
+
     saver = tf.train.Saver()
     saver.restore(sess, tfmodel)
 
-    print('Loaded network {:s}'.format(tfmodel))
+    print(srm2.eval())
 
-    imdb, _ = combined_roidb("Columbia")
-    return sess, net
+    #print('Loaded network {:s}'.format(tfmodel))
+
+    #imdb, _ = combined_roidb("Columbia")
+
 
     #test_net(sess, net, imdb, weights_filename='output')
 
