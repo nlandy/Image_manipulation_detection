@@ -90,9 +90,9 @@ def get_model():
     filters = sess.run(srm2)
     print(filters.shape)
 
-    plt.imsave('filt0.jpg', cv2.resize(filters[:, :, :, 0], (800, 800, 3)))
-    plt.imsave('filt1.jpg', cv2.resize(filters[:, :, :, 1], (800, 800, 3)))
-    plt.imsave('filt2.jpg', cv2.resize(filters[:, :, :, 2], (800, 800, 3)))
+    plt.imsave('filt0.jpg', cv2.resize(filters[:, :, :, 0], (800, 800)))
+    plt.imsave('filt1.jpg', cv2.resize(filters[:, :, :, 1], (800, 800)))
+    plt.imsave('filt2.jpg', cv2.resize(filters[:, :, :, 2], (800, 800)))
 
 
     #print('Loaded network {:s}'.format(tfmodel))
