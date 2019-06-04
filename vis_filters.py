@@ -77,7 +77,7 @@ def get_model():
     net.create_architecture(sess, "TEST", 2,
                             tag='default', anchor_scales=[8, 16, 32])
 
-    srm2 = tf.get_variable("fc6_conv", [5, 5, 3, 3], trainable=False)
+    srm2 = tf.get_variable("srm2", [5, 5, 3, 3], trainable=False)
 
     saver = tf.train.Saver()
     saver.restore(sess, tfmodel)
