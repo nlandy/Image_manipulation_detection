@@ -54,7 +54,7 @@ if __name__ == '__main__':
     # model path
     demonet = args.demo_net
     dataset = args.dataset
-    tfmodel = os.path.join('default', 'Columbia', 'default', NETS[demonet][0])
+    tfmodel = os.path.join('default', 'DIY_dataset', 'default', NETS[demonet][0])
 
     if not os.path.isfile(tfmodel + '.meta'):
         print(tfmodel)
@@ -81,6 +81,6 @@ if __name__ == '__main__':
 
     print('Loaded network {:s}'.format(tfmodel))
 
-    imdb, _ = combined_roidb("Columbia")
+    imdb, _ = combined_roidb("DIY_dataset")
 
     test_net(sess, net, imdb, weights_filename='output')
