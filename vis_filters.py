@@ -83,7 +83,7 @@ def get_model():
 
     imdb, _ = combined_roidb("Columbia")
 
-    test_net(sess, net, imdb, weights_filename='output')
+    #test_net(sess, net, imdb, weights_filename='output')
 
 if __name__ == '__main__':
     get_model()
