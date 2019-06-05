@@ -68,6 +68,7 @@ def vis_detections(im, class_name, dets, image_name, thresh=0.5):
     plt.tight_layout()
     plt.draw()
     plt.savefig(image_name + '.png')
+    print('saving detected image')
 
 
 def demo(sess, net, image_name):
@@ -96,7 +97,7 @@ def demo(sess, net, image_name):
                           cls_scores[:, np.newaxis])).astype(np.float32)
         keep = nms(dets, NMS_THRESH)
         dets = dets[keep, :]
-        vis_detections(im, cls, dets, image_name, thresh=CONF_THRESH )
+        vis_detections(im, cls, dets, image_name, thresh=CONF_THRESH)
 
 
 def parse_args():
@@ -145,10 +146,9 @@ if __name__ == '__main__':
     print('Loaded network {:s}'.format(tfmodel))
 
     for file in os.listdir("./lib/layer_utils"):
-        print(file)
         if file.endswith(".tif"):
             print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
             print('Demo for lib/layer_utils/{}'.format(file))
             demo(sess, net, file)
 
-    plt.show()
+    #plt.show()
