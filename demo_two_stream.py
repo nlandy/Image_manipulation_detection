@@ -147,7 +147,7 @@ if __name__ == '__main__':
     print('Loaded network {:s}'.format(tfmodel))
 
     for file in os.listdir("./lib/layer_utils"):
-        if file.endswith(".tif"):
+        if file.endswith(".jpg"):
             print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
             print('Demo for lib/layer_utils/{}'.format(file))
             demo(sess, net, file)
