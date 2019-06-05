@@ -60,7 +60,8 @@ class vgg16(Network):
             net2, noise_map = self.build_head_forNoise(is_training, initializer, initializer_srm, '2')
 
             # Build Noise stream head
-            net3, noise_map2 = self.build_head_forNoise(is_training, initializer, initializer_srm, '3')
+            net3 = None
+            #net3, noise_map2 = self.build_head_forNoise(is_training, initializer, initializer_srm, '3')
 
             # Build rpn
             rpn_cls_prob, rpn_bbox_pred, rpn_cls_score, rpn_cls_score_reshape = self.build_rpn(net, is_training, initializer)
@@ -296,8 +297,8 @@ class vgg16(Network):
 
         # Compact Bilinear Pooling
         cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 512)
-        pool5_forNoise2 = self._crop_pool_layer(net3, rois, "pool5_forNoise")
-        cbp2 = compact_bilinear_pooling_layer(cbp, pool5_forNoise2, 512)
+        #pool5_forNoise2 = self._crop_pool_layer(net3, rois, "pool5_forNoise")
+        #cbp2 = compact_bilinear_pooling_layer(cbp, pool5_forNoise2, 512)
 
 
         cbp_flat = slim.flatten(cbp, scope='cbp_flatten')
