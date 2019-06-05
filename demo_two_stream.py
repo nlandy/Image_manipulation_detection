@@ -32,7 +32,7 @@ CLASSES = ('__background__',
            'tampered')
 
 # PLEASE specify weight files dir for vgg16
-NETS = {'vgg16': ('vgg16_faster_rcnn_iter_30000.ckpt',), 'res101': ('res101_faster_rcnn_iter_110000.ckpt',)}
+NETS = {'vgg16': ('vgg16_faster_rcnn_iter_10000.ckpt',), 'res101': ('res101_faster_rcnn_iter_110000.ckpt',)}
 DATASETS = {'pascal_voc': ('voc_2007_trainval',), 'pascal_voc_0712': ('voc_2007_trainval+voc_2012_trainval',)}
 
 
@@ -144,7 +144,7 @@ if __name__ == '__main__':
     print('Loaded network {:s}'.format(tfmodel))
 
     for file in os.listdir("./lib/layer_utils"):
-        if file.endswith(".jpg"):
+        if file.endswith(".tif"):
             print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
             print('Demo for lib/layer_utils/{}'.format(file))
             demo(sess, net, file)
