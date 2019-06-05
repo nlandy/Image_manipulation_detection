@@ -86,12 +86,8 @@ def demo(sess, net, image_name):
     timer.toc()
     print('Detection took {:.3f}s for {:d} object proposals'.format(timer.total_time, boxes.shape[0]))
 
-    print(scores)
-    score_sort = sorted(scores)
-    print(score_sort)
-
     # Visualize detections for each class
-    CONF_THRESH = 0.1
+    CONF_THRESH = 0.01
     NMS_THRESH = 0.1
 
     for cls_ind, cls in enumerate(CLASSES[1:]):
