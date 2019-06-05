@@ -80,8 +80,8 @@ def get_model():
 
     srm2 = tf.get_variable('resnet_v1_50/srm/weights', [5, 5, 3, 3], trainable=False)
 
-    #saver = tf.train.Saver()
-    #saver.restore(sess, tfmodel)
+    saver = tf.train.Saver()
+    saver.restore(sess, tfmodel)
 
     #variables = tf.global_variables()
     #for i in variables:
