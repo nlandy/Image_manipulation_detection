@@ -67,6 +67,7 @@ def vis_detections(im, class_name, dets, thresh=0.5):
     plt.axis('off')
     plt.tight_layout()
     plt.draw()
+    plt.savefig(imagename + '.png')
 
 
 def demo(sess, net, image_name):
@@ -95,7 +96,7 @@ def demo(sess, net, image_name):
                           cls_scores[:, np.newaxis])).astype(np.float32)
         keep = nms(dets, NMS_THRESH)
         dets = dets[keep, :]
-        vis_detections(im, cls, dets, thresh=CONF_THRESH)
+        vis_detections(im, cls, dets, thresh=CONF_THRESH, image_name)
 
 
 def parse_args():
