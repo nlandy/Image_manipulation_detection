@@ -43,7 +43,7 @@ def parse_args():
     """Parse input arguments."""
     parser = argparse.ArgumentParser(description='Tensorflow Faster R-CNN demo')
     parser.add_argument('--net', dest='demo_net', help='Network to use [vgg16 res50]',
-                        choices=NETS.keys(), default='res50')
+                        choices=NETS.keys(), default='vgg16')
     parser.add_argument('--dataset', dest='dataset', help='Trained dataset [pascal_voc pascal_voc_0712]',
                         choices=DATASETS.keys(), default='pascal_voc_0712')
     args = parser.parse_args()
@@ -78,8 +78,8 @@ def get_model():
         raise NotImplementedError
     #net.create_architecture(sess, "TEST", 2, tag='default', anchor_scales=[8, 16, 32])
 
-    #srm2 = tf.get_variable('vgg_16/srm2/weights', [5, 5, 3, 3], trainable=False)
-    srm2 = tf.get_variable('resnet_v1_50/srm/weights', [5, 5, 3, 3], trainable=False)
+    srm2 = tf.get_variable('vgg_16/srm2/weights', [5, 5, 3, 3], trainable=False)
+    #srm2 = tf.get_variable('resnet_v1_50/srm/weights', [5, 5, 3, 3], trainable=False)
 
     saver = tf.train.Saver()
     saver.restore(sess, tfmodel)
