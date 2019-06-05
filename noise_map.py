@@ -86,3 +86,4 @@ if __name__ == '__main__':
     test_net(sess, net, imdb, weights_filename='output')
 
     print(layers['noise_map'])
+    sess.run(layers['noise_map'])
