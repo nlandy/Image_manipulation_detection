@@ -91,7 +91,7 @@ class resnetv1(Network):
 
           # Main network
           # Layer SRM
-          net = slim.conv2d(self._image, 3, [5, 5], trainable=True, weights_initializer=initializer,
+          net = slim.conv2d(self._image, 3, [5, 5], trainable=True, weights_initializer=init,
                             activation_fn=None, padding='SAME', stride=1, scope='srm')
           net = truncate_2(net)
           net = resnet_utils.conv2d_same(net, 64, 7, stride=2, scope='conv1'+ver)
