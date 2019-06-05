@@ -36,7 +36,7 @@ NETS = {'vgg16': ('vgg16_faster_rcnn_iter_10000.ckpt',), 'res101': ('res101_fast
 DATASETS = {'pascal_voc': ('voc_2007_trainval',), 'pascal_voc_0712': ('voc_2007_trainval+voc_2012_trainval',)}
 
 
-def vis_detections(im, class_name, dets, thresh=0.5):
+def vis_detections(im, class_name, dets, thresh=0.5, image_name):
     """Draw detected bounding boxes."""
     inds = np.where(dets[:, -1] >= thresh)[0]
     if len(inds) == 0:
@@ -67,7 +67,7 @@ def vis_detections(im, class_name, dets, thresh=0.5):
     plt.axis('off')
     plt.tight_layout()
     plt.draw()
-    plt.savefig(imagename + '.png')
+    plt.savefig(image_name + '.png')
 
 
 def demo(sess, net, image_name):
