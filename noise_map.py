@@ -29,6 +29,7 @@ from lib.nets.vgg16 import vgg16
 from lib.utils.timer import Timer
 from train import combined_roidb
 from lib.utils.test import test_net
+import lib.utils.test
 
 CLASSES = ('__background__',
            'tampered')
@@ -83,7 +84,13 @@ if __name__ == '__main__':
 
     imdb, _ = combined_roidb("Columbia")
 
-    test_net(sess, net, imdb, weights_filename='output')
+    im = cv2.imread(imdb.image_path_at(0))
+    blobs, im_scales = _get_blobs(im)
+    im_blob = blobs['data']
+    # seems to have height, width, and image scales
+    # still not sure about the scale, maybe full image it is 1.
+    blobs['im_info'] = np.array([[im_blob.shape[1], im_blob.shape[2], im_scales[0]]], dtype=np.float32)
 
-    print(layers['noise_map'])
-    sess.run(layers['noise_map'])
+    _, scores, bbox_pred, rois, noise_map = net.test_image(sess, blobs['data'], blobs['im_info'])
+
+    print(noise_map)
