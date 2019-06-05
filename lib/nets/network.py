@@ -293,9 +293,9 @@ class Network(object):
                        weights_regularizer=weights_regularizer,
                        biases_regularizer=biases_regularizer,
                        biases_initializer=tf.constant_initializer(0.0)):
-            rois, noise_map, cls_prob, bbox_pred = self.build_network(sess, training)
+            rois, noise_map, noise_map2, cls_prob, bbox_pred = self.build_network(sess, training)
 
-        layers_to_output = {'rois': rois, 'noise_map': noise_map}
+        layers_to_output = {'rois': rois, 'noise_map': noise_map, 'noise_map': noise_map2}
         layers_to_output.update(self._predictions)
 
         for var in tf.trainable_variables():
@@ -349,9 +349,10 @@ class Network(object):
                                                          self._predictions['cls_prob'],
                                                          self._predictions['bbox_pred'],
                                                          self._predictions['rois'],
-                                                         self._predictions['noise_map']],
+                                                         self._predictions['noise_map'],
+                                                         self._predictions['noise_map2']],
                                                         feed_dict=feed_dict)
-        return cls_score, cls_prob, bbox_pred, rois, noise_map
+        return cls_score, cls_prob, bbox_pred, rois, noise_map, noise_map2
 
     def get_summary(self, sess, blobs):
         feed_dict = {self._image: blobs['data'], self._im_info: blobs['im_info'],
