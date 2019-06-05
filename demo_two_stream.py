@@ -144,6 +144,7 @@ if __name__ == '__main__':
     print('Loaded network {:s}'.format(tfmodel))
 
     for file in os.listdir("./lib/layer_utils"):
+        print(file)
         if file.endswith(".tif"):
             print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
             print('Demo for lib/layer_utils/{}'.format(file))
