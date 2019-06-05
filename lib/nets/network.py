@@ -295,7 +295,7 @@ class Network(object):
                        biases_initializer=tf.constant_initializer(0.0)):
             rois, noise_map, noise_map2, cls_prob, bbox_pred = self.build_network(sess, training)
 
-        layers_to_output = {'rois': rois, 'noise_map': noise_map, 'noise_map': noise_map2}
+        layers_to_output = {'rois': rois, 'noise_map': noise_map, 'noise_map2': noise_map2}
         layers_to_output.update(self._predictions)
 
         for var in tf.trainable_variables():
@@ -345,7 +345,7 @@ class Network(object):
     def test_image(self, sess, image, im_info):
         feed_dict = {self._image: image,
                      self._im_info: im_info}
-        cls_score, cls_prob, bbox_pred, rois, noise_map = sess.run([self._predictions["cls_score"],
+        cls_score, cls_prob, bbox_pred, rois, noise_map, noise_map2 = sess.run([self._predictions["cls_score"],
                                                          self._predictions['cls_prob'],
                                                          self._predictions['bbox_pred'],
                                                          self._predictions['rois'],
