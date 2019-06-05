@@ -223,8 +223,8 @@ class vgg16(Network):
         # Layer SRM
         net = slim.conv2d(self._image, 3, [5, 5], trainable=False, weights_initializer=initializer_srm,
                           activation_fn=None, padding='SAME', stride=1, scope='srm'+ver)
-        noise_map = net
         net = truncate_2(net)
+        noise_map = net
 
         # Layer  1
         net = slim.repeat(net, 2, slim.conv2d, 64, [3, 3], trainable=is_training, weights_initializer=initializer, scope='conv1n'+ver)
