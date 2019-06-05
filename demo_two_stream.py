@@ -86,6 +86,7 @@ def demo(sess, net, image_name):
     timer.toc()
     print('Detection took {:.3f}s for {:d} object proposals'.format(timer.total_time, boxes.shape[0]))
 
+    print(scores)
     score_sort = sorted(scores)
     print(score_sort)
 
