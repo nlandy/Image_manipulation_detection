@@ -92,7 +92,10 @@ if __name__ == '__main__':
     # still not sure about the scale, maybe full image it is 1.
     blobs['im_info'] = np.array([[im_blob.shape[1], im_blob.shape[2], im_scales[0]]], dtype=np.float32)
 
-    _, scores, bbox_pred, rois, noise_map = net.test_image(sess, blobs['data'], blobs['im_info'])
+    _, scores, bbox_pred, rois, noise_map, noise_map2 = net.test_image(sess, blobs['data'], blobs['im_info'])
 
     plt.imsave('noise_map.jpg', noise_map[0])
     print(noise_map.shape)
+
+    plt.imsave('noise_map2.jpg', noise_map2[0])
+    print(noise_map2.shape)
