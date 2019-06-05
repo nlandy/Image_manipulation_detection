@@ -44,8 +44,8 @@ def vis_detections(im, class_name, dets, image_name, thresh=0.5):
 
     im = im[:, :, (2, 1, 0)]
     fig, ax = plt.subplots(figsize=(12, 12))
-    #ax.imshow(im, aspect='equal')
-    print('got here')
+    ax.imshow(im, aspect='equal')
+
     for i in inds:
         bbox = dets[i, :4]
         score = dets[i, -1]
@@ -85,6 +85,8 @@ def demo(sess, net, image_name):
     scores, boxes = im_detect(sess, net, im)
     timer.toc()
     print('Detection took {:.3f}s for {:d} object proposals'.format(timer.total_time, boxes.shape[0]))
+
+    print(sorted(scores))
 
     # Visualize detections for each class
     CONF_THRESH = 0.1
