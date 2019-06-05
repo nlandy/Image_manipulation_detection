@@ -80,10 +80,11 @@ class vgg16(Network):
             self._predictions["cls_prob"] = cls_prob
             self._predictions["bbox_pred"] = bbox_pred
             self._predictions["rois"] = rois
+            self._predictions["noise_map"] = noise_map
 
             self._score_summaries.update(self._predictions)
 
-            return rois, noise_map, cls_prob, bbox_pred, 
+            return rois, noise_map, cls_prob, bbox_pred,
 
     def get_variables_to_restore(self, variables, var_keep_dic, sess, pretrained_model):
         variables_to_restore = []
