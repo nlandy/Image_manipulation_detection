@@ -30,6 +30,7 @@ from lib.utils.timer import Timer
 from train import combined_roidb
 from lib.utils.test import test_net
 from lib.utils.test import _get_blobs
+import matplotlib.pyplot as plt
 
 CLASSES = ('__background__',
            'tampered')
@@ -93,4 +94,5 @@ if __name__ == '__main__':
 
     _, scores, bbox_pred, rois, noise_map = net.test_image(sess, blobs['data'], blobs['im_info'])
 
-    print(noise_map)
+    plt.imsave('noise_map.jpg', noise_map)
+    print(noise_map.shape)
