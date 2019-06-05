@@ -76,12 +76,12 @@ def get_model():
         net = resnetv1(batch_size=1, num_layers=50)
     else:
         raise NotImplementedError
-    #net.create_architecture(sess, "TEST", 2, tag='default', anchor_scales=[8, 16, 32])
+    net.create_architecture(sess, "TEST", 2, tag='default', anchor_scales=[8, 16, 32])
 
     srm2 = tf.get_variable('vgg_16/srm2/weights', [5, 5, 3, 3], trainable=False)
 
-    saver = tf.train.Saver()
-    saver.restore(sess, tfmodel)
+    #saver = tf.train.Saver()
+    #saver.restore(sess, tfmodel)
 
     variables = tf.global_variables()
     for i in variables:
