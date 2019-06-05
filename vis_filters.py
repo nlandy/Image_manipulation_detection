@@ -78,7 +78,7 @@ def get_model():
         raise NotImplementedError
     net.create_architecture(sess, "TEST", 2, tag='default', anchor_scales=[8, 16, 32])
 
-    srm2 = tf.get_variable('vgg_16/srm2/weights', [5, 5, 3, 3], trainable=False)
+    srm2 = tf.get_variable('resnet_v1_50/srm/weights', [5, 5, 3, 3], trainable=False)
 
     #saver = tf.train.Saver()
     #saver.restore(sess, tfmodel)
