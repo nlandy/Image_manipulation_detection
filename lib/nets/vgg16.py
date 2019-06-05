@@ -86,7 +86,7 @@ class vgg16(Network):
 
             self._score_summaries.update(self._predictions)
 
-            return rois, noise_map, cls_prob, bbox_pred
+            return rois, cls_prob, bbox_pred
 
     def get_variables_to_restore(self, variables, var_keep_dic, sess, pretrained_model):
         variables_to_restore = []
