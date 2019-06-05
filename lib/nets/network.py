@@ -351,7 +351,7 @@ class Network(object):
                                                          self._predictions['rois'],
                                                          self._predictions['noise_map']],
                                                         feed_dict=feed_dict)
-        return cls_score, cls_prob, bbox_pred, rois
+        return cls_score, cls_prob, bbox_pred, rois, noise_map
 
     def get_summary(self, sess, blobs):
         feed_dict = {self._image: blobs['data'], self._im_info: blobs['im_info'],
