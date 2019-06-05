@@ -201,4 +201,4 @@ def test_net(sess, net, imdb, weights_filename, max_per_image=100, thresh=0.05):
         pickle.dump(all_boxes, f, pickle.HIGHEST_PROTOCOL)
 
     print('Evaluating detections')
-    imdb.evaluate_detections(all_boxes, output_dir)
+    #imdb.evaluate_detections(all_boxes, output_dir)
