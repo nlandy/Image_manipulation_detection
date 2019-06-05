@@ -38,7 +38,6 @@ DATASETS = {'pascal_voc': ('voc_2007_trainval',), 'pascal_voc_0712': ('voc_2007_
 
 def vis_detections(im, class_name, dets, image_name, thresh=0.5):
     """Draw detected bounding boxes."""
-    print('got here')
     inds = np.where(dets[:, -1] >= thresh)[0]
     if len(inds) == 0:
         return
@@ -46,6 +45,7 @@ def vis_detections(im, class_name, dets, image_name, thresh=0.5):
     im = im[:, :, (2, 1, 0)]
     fig, ax = plt.subplots(figsize=(12, 12))
     ax.imshow(im, aspect='equal')
+    print('got here')
     for i in inds:
         bbox = dets[i, :4]
         score = dets[i, -1]
