@@ -44,7 +44,7 @@ def vis_detections(im, class_name, dets, image_name, thresh=0.5):
 
     im = im[:, :, (2, 1, 0)]
     fig, ax = plt.subplots(figsize=(12, 12))
-    ax.imshow(im, aspect='equal')
+    #ax.imshow(im, aspect='equal')
     print('got here')
     for i in inds:
         bbox = dets[i, :4]
