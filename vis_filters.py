@@ -36,7 +36,7 @@ CLASSES = ('__background__',
            'tampered')
 
 # PLEASE specify weight files dir for vgg16
-NETS = {'vgg16': ('vgg16_faster_rcnn_iter_10000.ckpt',), 'res50': ('resnetv1_faster_rcnn_iter_100.ckpt',)}
+NETS = {'vgg16': ('vgg16_faster_rcnn_iter_10000.ckpt',), 'res50': ('resnetv1_faster_rcnn_iter_10000.ckpt',)}
 DATASETS = {'pascal_voc': ('voc_2007_trainval',), 'pascal_voc_0712': ('voc_2007_trainval+voc_2012_trainval',)}
 
 def parse_args():
@@ -78,6 +78,7 @@ def get_model():
         raise NotImplementedError
     #net.create_architecture(sess, "TEST", 2, tag='default', anchor_scales=[8, 16, 32])
 
+    #srm2 = tf.get_variable('vgg_16/srm2/weights', [5, 5, 3, 3], trainable=False)
     srm2 = tf.get_variable('resnet_v1_50/srm/weights', [5, 5, 3, 3], trainable=False)
 
     saver = tf.train.Saver()
