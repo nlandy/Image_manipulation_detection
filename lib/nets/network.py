@@ -346,11 +346,10 @@ class Network(object):
     def test_image(self, sess, image, im_info):
         feed_dict = {self._image: image,
                      self._im_info: im_info}
-        cls_score, cls_prob, bbox_pred, rois, noise_map = sess.run([self._predictions["cls_score"],
+        cls_score, cls_prob, bbox_pred, rois = sess.run([self._predictions["cls_score"],
                                                          self._predictions['cls_prob'],
                                                          self._predictions['bbox_pred'],
-                                                         self._predictions['rois'],
-                                                         self._predictions['noise_map']],
+                                                         self._predictions['rois']],
                                                         feed_dict=feed_dict)
         return cls_score, cls_prob, bbox_pred, rois
         #return cls_score, cls_prob, bbox_pred, rois, noise_map, noise_map2

@@ -61,7 +61,6 @@ class vgg16(Network):
 
             # Build Noise stream head
             net3 = None
-            noise_map2 = 0
             #net3, noise_map2 = self.build_head_forNoise(is_training, initializer, initializer_srm, '3')
 
             # Build rpn
@@ -81,8 +80,6 @@ class vgg16(Network):
             self._predictions["cls_prob"] = cls_prob
             self._predictions["bbox_pred"] = bbox_pred
             self._predictions["rois"] = rois
-            self._predictions["noise_map"] = noise_map
-            self._predictions["noise_map2"] = noise_map2
 
             self._score_summaries.update(self._predictions)
 
