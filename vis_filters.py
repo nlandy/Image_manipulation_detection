@@ -83,9 +83,9 @@ def get_model():
     #saver = tf.train.Saver()
     #saver.restore(sess, tfmodel)
 
-    variables = tf.global_variables()
-    for i in variables:
-        print(i)
+    #variables = tf.global_variables()
+    #for i in variables:
+    #    print(i)
 
     filters = sess.run(srm2)
     print(filters.shape)
