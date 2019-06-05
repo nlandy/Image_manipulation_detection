@@ -89,9 +89,8 @@ def demo(sess, net, image_name):
     CONF_THRESH = 0.1
     NMS_THRESH = 0.1
 
-    print(enumerate(CLASSES[1:]))
-
     for cls_ind, cls in enumerate(CLASSES[1:]):
+        print(cls)
         cls_ind += 1  # because we skipped background
         cls_boxes = boxes[:, 4 * cls_ind:4 * (cls_ind + 1)]
         cls_scores = scores[:, cls_ind]
