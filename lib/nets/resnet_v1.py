@@ -82,7 +82,7 @@ class resnetv1(Network):
 
   # Do the first few layers manually, because 'SAME' padding can behave inconsistently
   # for images of different sizes: sometimes 0, sometimes 1
-  def build_base(self, ver=''):
+  def build_base(self, ver='', init=None):
     with tf.variable_scope(self._resnet_scope, self._resnet_scope):
       if(ver == 'n'):
           def truncate_2(x):
@@ -169,7 +169,7 @@ class resnetv1(Network):
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope)
-        net_noise = self.build_base(ver='n')
+        net_noise = self.build_base(ver='n', init=initializer)
         net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
                                            blocks[0:cfg.FLAGS.fixed_blocks],
                                            global_pool=False,
@@ -185,7 +185,7 @@ class resnetv1(Network):
                                      include_root_block=False,
                                      scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
 
-        net_noise = self.build_base(ver='n')
+        net_noise = self.build_base(ver='n', init=initializer)
         net_noise, _ = resnet_v1.resnet_v1(net_noise,
                                             blocks[0:cfg.FLAGS.fixed_blocks],
                                             global_pool=False,
@@ -211,7 +211,7 @@ class resnetv1(Network):
                                            global_pool=False,
                                            include_root_block=False,
                                            scope=self._resnet_scope, reuse=tf.AUTO_REUSE)
-        net_noise = self.build_base(ver='n')
+        net_noise = self.build_base(ver='n', init=initializer)
         net_conv4_noise, _ = resnet_v1.resnet_v1(net_noise,
                                            blocks[0:cfg.FLAGS.fixed_blocks],
                                            global_pool=False,
