@@ -84,9 +84,23 @@ class resnetv1(Network):
   # for images of different sizes: sometimes 0, sometimes 1
   def build_base(self, ver=''):
     with tf.variable_scope(self._resnet_scope, self._resnet_scope):
-      net = resnet_utils.conv2d_same(self._image, 64, 7, stride=2, scope='conv1'+ver)
-      net = tf.pad(net, [[0, 0], [1, 1], [1, 1], [0, 0]])
-      net = slim.max_pool2d(net, [3, 3], stride=2, padding='VALID', scope='pool1'+ver)
+      if(ver == 'n'):
+          def truncate_2(x):
+              neg = ((x + 2) + abs(x + 2)) / 2 - 2
+              return -(2 - neg + abs(2 - neg)) / 2 + 2
+
+          # Main network
+          # Layer SRM
+          net = slim.conv2d(self._image, 3, [5, 5], trainable=True, weights_initializer=initializer,
+                            activation_fn=None, padding='SAME', stride=1, scope='srm')
+          net = truncate_2(net)
+          net = resnet_utils.conv2d_same(net, 64, 7, stride=2, scope='conv1'+ver)
+          net = tf.pad(net, [[0, 0], [1, 1], [1, 1], [0, 0]])
+          net = slim.max_pool2d(net, [3, 3], stride=2, padding='VALID', scope='pool1'+ver)
+      else:
+          net = resnet_utils.conv2d_same(self._image, 64, 7, stride=2, scope='conv1'+ver)
+          net = tf.pad(net, [[0, 0], [1, 1], [1, 1], [0, 0]])
+          net = slim.max_pool2d(net, [3, 3], stride=2, padding='VALID', scope='pool1'+ver)
 
     return net
 
@@ -241,10 +255,10 @@ class resnetv1(Network):
       # rcnn
       if cfg.FLAGS.POOLING_MODE == 'crop':
         pool5 = self._crop_pool_layer(net_conv4, rois, "pool5")
-        #pool5_forNoise = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
+        pool5_forNoise = self._crop_pool_layer(net_conv4_noise, rois, "pool5n")
         # Compact Bilinear Pooling
-        #cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 1024)
-        cbp_flat = slim.flatten(pool5, scope='cbp_flatten')
+        cbp = compact_bilinear_pooling_layer(pool5, pool5_forNoise, 1024)
+        cbp_flat = slim.flatten(cbp, scope='cbp_flatten')
       else:
         raise NotImplementedError
 
