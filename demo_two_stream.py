@@ -38,6 +38,7 @@ DATASETS = {'pascal_voc': ('voc_2007_trainval',), 'pascal_voc_0712': ('voc_2007_
 
 def vis_detections(im, class_name, dets, image_name, thresh=0.5):
     """Draw detected bounding boxes."""
+    print('got here')
     inds = np.where(dets[:, -1] >= thresh)[0]
     if len(inds) == 0:
         return
@@ -90,7 +91,6 @@ def demo(sess, net, image_name):
     NMS_THRESH = 0.1
 
     for cls_ind, cls in enumerate(CLASSES[1:]):
-        print(cls)
         cls_ind += 1  # because we skipped background
         cls_boxes = boxes[:, 4 * cls_ind:4 * (cls_ind + 1)]
         cls_scores = scores[:, cls_ind]
