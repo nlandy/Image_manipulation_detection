@@ -29,7 +29,7 @@ from lib.nets.vgg16 import vgg16
 from lib.utils.timer import Timer
 from train import combined_roidb
 from lib.utils.test import test_net
-import lib.utils.test
+from lib.utils.test import _get_blobs
 
 CLASSES = ('__background__',
            'tampered')
