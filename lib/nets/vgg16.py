@@ -57,7 +57,7 @@ class vgg16(Network):
             net = self.build_head(is_training)
 
             # Build Noise stream head
-            net2 = self.build_head_forNoise(is_training, initializer, initializer_srm, '2')
+            net2, noise_map = self.build_head_forNoise(is_training, initializer, initializer_srm, '2')
 
             # Build Noise stream head
             net3 = None
@@ -83,7 +83,7 @@ class vgg16(Network):
 
             self._score_summaries.update(self._predictions)
 
-            return rois, cls_prob, bbox_pred
+            return rois, noise_map, cls_prob, bbox_pred, 
 
     def get_variables_to_restore(self, variables, var_keep_dic, sess, pretrained_model):
         variables_to_restore = []
@@ -222,6 +222,7 @@ class vgg16(Network):
         # Layer SRM
         net = slim.conv2d(self._image, 3, [5, 5], trainable=False, weights_initializer=initializer_srm,
                           activation_fn=None, padding='SAME', stride=1, scope='srm'+ver)
+        noise_map = net
         net = truncate_2(net)
 
         # Layer  1
@@ -249,7 +250,7 @@ class vgg16(Network):
         # Append network as head layer
         self._layers['head2'] = net
 
-        return net
+        return net, noise_map
 
     def build_rpn(self, net, is_training, initializer):
 

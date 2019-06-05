@@ -293,9 +293,9 @@ class Network(object):
                        weights_regularizer=weights_regularizer,
                        biases_regularizer=biases_regularizer,
                        biases_initializer=tf.constant_initializer(0.0)):
-            rois, cls_prob, bbox_pred = self.build_network(sess, training)
+            rois, noise_map, cls_prob, bbox_pred = self.build_network(sess, training)
 
-        layers_to_output = {'rois': rois}
+        layers_to_output = {'rois': rois, 'noise_map': noise_map}
         layers_to_output.update(self._predictions)
 
         for var in tf.trainable_variables():

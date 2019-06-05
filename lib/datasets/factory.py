@@ -42,7 +42,7 @@ for year in ['2007']:
         __sets[name] = (lambda split=split, year=year: DIY_pascal_voc(split, year))
 
 for year in ['2007']:
-    for split in ['train']:
+    for split in ['demo']:
         name = 'Columbia'
         __sets[name] = (lambda split=split, year=year: Columbia_pascal_voc(split, year))
 
