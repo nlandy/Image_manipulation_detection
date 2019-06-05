@@ -79,6 +79,7 @@ def get_model():
     #net.create_architecture(sess, "TEST", 2, tag='default', anchor_scales=[8, 16, 32])
 
     srm2 = tf.get_variable('vgg_16/srm2/weights', [5, 5, 3, 3], trainable=False)
+    srm3 = tf.get_variable('vgg_16/srm3/weights', [5, 5, 3, 3], trainable=False)
     #srm2 = tf.get_variable('resnet_v1_50/srm/weights', [5, 5, 3, 3], trainable=False)
 
     saver = tf.train.Saver()
@@ -94,6 +95,13 @@ def get_model():
     plt.imsave('filt0.jpg', cv2.resize(filters[:, :, :, 0], (800, 800), interpolation=cv2.INTER_NEAREST))
     plt.imsave('filt1.jpg', cv2.resize(filters[:, :, :, 1], (800, 800), interpolation=cv2.INTER_NEAREST))
     plt.imsave('filt2.jpg', cv2.resize(filters[:, :, :, 2], (800, 800), interpolation=cv2.INTER_NEAREST))
+
+    filters2 = sess.run(srm3)
+    print(filters2.shape)
+
+    plt.imsave('filt3.jpg', cv2.resize(filters2[:, :, :, 0], (800, 800), interpolation=cv2.INTER_NEAREST))
+    plt.imsave('filt4.jpg', cv2.resize(filters2[:, :, :, 1], (800, 800), interpolation=cv2.INTER_NEAREST))
+    plt.imsave('filt5.jpg', cv2.resize(filters2[:, :, :, 2], (800, 800), interpolation=cv2.INTER_NEAREST))
 
 
     #print('Loaded network {:s}'.format(tfmodel))
