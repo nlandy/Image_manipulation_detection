@@ -316,6 +316,7 @@ class Network(object):
             for key, var in self._event_summaries.items():
                 val_summaries.append(tf.summary.scalar(key, var))
             for key, var in self._score_summaries.items():
+                print(key, var)
                 self._add_score_summary(key, var)
             for var in self._act_summaries:
                 self._add_act_summary(var)
